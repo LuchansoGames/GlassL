@@ -8,9 +8,9 @@
 	<!-- output -->
 	<app main="com.luchanso.glassl.Main" file="GlassL" path="bin" />
 	
-	<window background="#80D8FF" fps="30" />
-	<window width="600" height="700" unless="mobile" />
-	<window orientation="landscape" vsync="false" antialiasing="0" if="cpp" />
+	<window background="#80D8FF" fps="60" />
+	<window width="600" height="700" />
+	<window orientation="portrait" vsync="false" antialiasing="0" if="cpp" />
 	
 	<!-- classpath, haxe libs -->
 	<source path="src" />
@@ -19,6 +19,7 @@
 	
 	<!-- assets -->
 	<assets path="assets/img" rename="img" />
+	<assets path="assets/sound" rename="sound" />
 	
 	<!-- optimize output
 	<haxeflag name="-dce full" /> -->

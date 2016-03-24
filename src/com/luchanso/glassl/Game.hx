@@ -2,10 +2,13 @@ package com.luchanso.glassl;
 
 import flash.events.Event;
 import motion.Actuate;
+import openfl.Assets;
 import openfl.display.Sprite;
 import openfl.Lib;
 import openfl.events.KeyboardEvent;
+import openfl.events.MouseEvent;
 import openfl.events.TimerEvent;
+import openfl.media.Sound;
 import openfl.ui.Keyboard;
 import openfl.utils.Timer;
 import src.com.luchanso.glassl.Ball;
@@ -25,6 +28,8 @@ class Game extends Sprite
 	var wallBottom : DynamicWall;
 	var score : Score;
 	var accelerateTimer : Timer;
+	var sound : Sound;
+	var soundButton : SoundButton;
 	
 	var timestep : Timestep;
 	
@@ -33,12 +38,14 @@ class Game extends Sprite
 	static var widthWall : Float = 450;
 	static var heightWall : Float = Config.height - (margin * 2 + diametr);
 
-	public function new()
+	public function new(soundButton : SoundButton)
 	{
 		super();
 		
+		this.soundButton = soundButton;
+		
 		timestep = new Timestep();
-		timestep.gameSpeed = 1;
+		timestep.gameSpeed = 0.65;
 		
 		wallTop = new Wall(Config.width / 2 - widthWall / 2, margin, widthWall, diametr);
 		wallLeft = new Wall(Config.width / 2 - widthWall / 2 - diametr, margin, diametr, heightWall);
@@ -55,6 +62,8 @@ class Game extends Sprite
 		addChild(wallBottom);
 		addChild(score);
 		addChild(ball);
+		
+		sound = Assets.getSound("sound/ding.wav");
 		
 		this.addEventListener(Event.ADDED_TO_STAGE, addedToStage);
 		this.addEventListener(Event.ENTER_FRAME, update);
@@ -75,6 +84,7 @@ class Game extends Sprite
 		
 		ball.update(timestep.timeDelta);
 		calcBounce();
+		PixelTween.update(timestep.timeDelta);
 	}
 	
 	private function addedToStage(e:Event) : Void 
@@ -82,13 +92,22 @@ class Game extends Sprite
 		removeEventListener(Event.ADDED_TO_STAGE, addedToStage);
 		
 		this.stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
+		this.stage.addEventListener(MouseEvent.CLICK, click);
+	}
+	
+	private function click(e:MouseEvent):Void 
+	{
+		if (!wallBottom.isActive && !wallBottom.isSleep)
+		{
+			wallBottom.show(0.4 - accelerateTimer.currentCount * 0.001);
+		}
 	}
 	
 	private function keyDown(e:KeyboardEvent) : Void 
 	{
 		if (e.keyCode == Keyboard.SPACE && !wallBottom.isActive && !wallBottom.isSleep)
 		{
-			wallBottom.show(0.5 - accelerateTimer.currentCount * 0.001);
+			wallBottom.show(0.4 - accelerateTimer.currentCount * 0.001);
 		}
 	}
 	
@@ -148,6 +167,13 @@ class Game extends Sprite
 	{	
 		score.setScore(score.getScore() + 1);
 		
+		if (soundButton.isStateOn) 
+		{
+			sound.play();
+		}
+		
+		PixelTween.generate(this, 5, ball.x, ball.y);
+		
 		if (type == BouncePosition.RIGHT) 
 		{
 			if (ball.speedY > 0) 
@@ -194,7 +220,8 @@ class Game extends Sprite
 	
 	private function lose()
 	{
-		this.dispatchEvent(new Event("lose"));
 		this.removeEventListener(Event.ENTER_FRAME, update);
+		this.stage.removeEventListener(MouseEvent.CLICK, click);
+		this.dispatchEvent(new Event("lose"));
 	}
 }

@@ -45,7 +45,7 @@ class DynamicWall extends Wall
 		Actuate.tween(this, time / 2, { alpha: 1 } ).ease(Linear.easeNone).onComplete(function() {
 			hide(time / 2);
 		});
-		Actuate.tween(this, time * 1.2, { } ).onComplete(function() {
+		Actuate.tween(this, time * 1.5, { } ).onComplete(function() {
 			this.isSleep = false;
 		});
 	}

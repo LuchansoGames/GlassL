@@ -5,7 +5,7 @@
     <movie outputType="CustomBuild" />
     <movie input="" />
     <movie path="project.xml" />
-    <movie fps="30" />
+    <movie fps="60" />
     <movie width="600" />
     <movie height="700" />
     <movie version="1" />
@@ -21,16 +21,16 @@
     <class path="C:\HaxeToolkit\haxe\lib\actuate\1,8,6" />
     <class path="src" />
     <class path="C:\HaxeToolkit\haxe\lib\openfl\3,6,0\extern" />
-    <class path="bin\android\haxe" />
+    <class path="bin\flash\haxe" />
   </classpaths>
   <!-- Build options -->
   <build>
-    <option directives="openfl=3.6.0&#xA;lime=2.9.0&#xA;actuate=1.8.6&#xA;openfl-next&#xA;tools=2.9.0&#xA;no-compilation&#xA;native&#xA;lime-native&#xA;openfl-native&#xA;android&#xA;mobile&#xA;android&#xA;android-9&#xA;display" />
+    <option directives="openfl=3.6.0&#xA;lime=2.9.0&#xA;actuate=1.8.6&#xA;openfl-next&#xA;tools=2.9.0&#xA;no-compilation&#xA;openfl-flash&#xA;web&#xA;display" />
     <option flashStrict="False" />
     <option noInlineOnDebug="False" />
     <option mainClass="ApplicationMain" />
     <option enabledebug="True" />
-    <option additional="--remap flash:openfl&#xA;-debug #--macro keep(&quot;com.luchanso.glassl.Main&quot;)" />
+    <option additional="-swf-version 11.2&#xA;-debug " />
   </build>
   <!-- haxelib libraries -->
   <haxelib>
