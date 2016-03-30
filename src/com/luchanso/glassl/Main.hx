@@ -1,8 +1,12 @@
 package com.luchanso.glassl;
 
+import com.luchanso.glassl.scenes.Game;
+import com.luchanso.glassl.scenes.MainMenu;
+import com.luchanso.glassl.ui.SoundButton;
 import flash.events.Event;
 import flash.text.TextField;
 import openfl.Lib;
+import openfl.display.FPS;
 import openfl.display.Sprite;
 import openfl.events.KeyboardEvent;
 import openfl.events.MouseEvent;
@@ -17,24 +21,30 @@ import openfl.ui.Keyboard;
 class Main extends Sprite
 {
 	var game : Game;
-	var lable : TextField;	
 	var soundButton : SoundButton;
+	var mainMenu : MainMenu;
 
 	public function new() 
 	{
-		super();		
+		super();
 		
-		addLable();
-		addSoundButtonToStage();
-		this.stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
-		this.stage.addEventListener(MouseEvent.CLICK, click);
+		initMainMenu();
+		addFps();
+		// drawDebug();
 	}
 	
-	private function click(e:MouseEvent):Void 
+	function addFps() 
 	{
-		this.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
-		this.stage.removeEventListener(MouseEvent.CLICK, click);
-		init();
+		var fps = new FPS();
+		addChild(fps);
+	}
+	
+	function initMainMenu() : Void
+	{
+		mainMenu = new MainMenu();
+		mainMenu.addEventListener(MainMenu.EVENT_PLAY, startGame);
+		
+		addChild(mainMenu);
 	}
 	
 	function addSoundButtonToStage()
@@ -50,47 +60,44 @@ class Main extends Sprite
 		addChild(soundButton);
 	}
 	
-	function addLable() 
+	private function startGame(e:Event)
 	{
-		lable = new TextField();
-		lable.defaultTextFormat = new TextFormat("Arial", 25, 0xFFFFFF);
-		lable.selectable = false;
-		lable.mouseEnabled = false;
-		lable.autoSize = TextFieldAutoSize.LEFT;
-		lable.text = "Нажимай пробел";
-		lable.x = Config.width / 2 - lable.width / 2;
-		lable.y = Config.height - 50;
-		
-		addChild(lable);
-	}
-	
-	private function lose(e:Event) : Void 
-	{
-		lable.visible = true;
-		this.stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
-		Lib.current.stage.addEventListener(MouseEvent.CLICK, click);
-	}
-	
-	private function keyDown(e:KeyboardEvent) : Void
-	{
-		if (e.keyCode == Keyboard.SPACE) 
+		if (mainMenu != null) 
 		{
-			this.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
-			init();
+			removeChild(mainMenu);
+			mainMenu = null;
 		}
-	}
-	
-	private function init()
-	{
-		if (game != null) 
+		
+		if (game != null)
 		{
 			this.removeChild(game);
 		}
+		else 
+		{
+			addSoundButtonToStage();
+		}
 		
-		game = new Game(soundButton);
+		game = new Game();
+		Lib.current.stage.focus = game;
+		
 		game.addEventListener("lose", lose);
 		addChild(game);
-		
-		lable.visible = false;
 	}	
+	
+	private function lose(e:Event):Void 
+	{
+		
+	}
+	
+	private function drawDebug() : Void
+	{		
+		var width = Lib.current.stage.window.width;
+		var height = Lib.current.stage.window.height;
+		
+		graphics.lineStyle(1, 0xFF0000);
+		graphics.moveTo(width / 2, 0);
+		graphics.lineTo(width / 2, height);
+		graphics.moveTo(0, height / 2);
+		graphics.lineTo(width, height / 2);
+	}
 }

@@ -1,4 +1,4 @@
-package com.luchanso.glassl;
+package com.luchanso.glassl.ui;
 
 import flash.text.TextField;
 import flash.text.TextFormat;

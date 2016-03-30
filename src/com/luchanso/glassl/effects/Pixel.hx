@@ -1,4 +1,4 @@
-package com.luchanso.glassl;
+package com.luchanso.glassl.effects;
 
 import motion.Actuate;
 import openfl.display.Sprite;

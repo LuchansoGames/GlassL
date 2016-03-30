@@ -1,9 +1,9 @@
-package com.luchanso.glassl;
+package com.luchanso.glassl.actors;
 
 import motion.Actuate;
 import motion.easing.Linear;
 import openfl.utils.Timer;
-import src.com.luchanso.glassl.Wall;
+import com.luchanso.glassl.actors.Wall;
 
 /**
  * ...

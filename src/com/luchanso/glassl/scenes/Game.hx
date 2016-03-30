@@ -1,5 +1,10 @@
-package com.luchanso.glassl;
+package com.luchanso.glassl.scenes;
 
+import com.luchanso.glassl.actors.BouncePosition;
+import com.luchanso.glassl.actors.DynamicWall;
+import com.luchanso.glassl.effects.PixelTween;
+import com.luchanso.glassl.ui.Score;
+import com.luchanso.glassl.ui.SoundButton;
 import flash.events.Event;
 import motion.Actuate;
 import openfl.Assets;
@@ -8,11 +13,12 @@ import openfl.Lib;
 import openfl.events.KeyboardEvent;
 import openfl.events.MouseEvent;
 import openfl.events.TimerEvent;
+import openfl.geom.Point;
 import openfl.media.Sound;
 import openfl.ui.Keyboard;
 import openfl.utils.Timer;
-import src.com.luchanso.glassl.Ball;
-import src.com.luchanso.glassl.Wall;
+import com.luchanso.glassl.actors.Ball;
+import com.luchanso.glassl.actors.Wall;
 
 /**
  * ...
@@ -38,11 +44,9 @@ class Game extends Sprite
 	static var widthWall : Float = 450;
 	static var heightWall : Float = Config.height - (margin * 2 + diametr);
 
-	public function new(soundButton : SoundButton)
+	public function new()
 	{
 		super();
-		
-		this.soundButton = soundButton;
 		
 		timestep = new Timestep();
 		timestep.gameSpeed = 0.65;
@@ -71,6 +75,12 @@ class Game extends Sprite
 		accelerateTimer = new Timer(100);
 		accelerateTimer.addEventListener(TimerEvent.TIMER, accelrateGame);
 		accelerateTimer.start();
+		
+		#if cheat
+		
+		cheatActivate();
+		
+		#end
 	}
 	
 	private function accelrateGame(e:TimerEvent):Void 
@@ -80,12 +90,23 @@ class Game extends Sprite
 	
 	private function update(e:Event) : Void 
 	{
-		timestep.tick();
+		timestep.tick();		
 		
-		ball.update(timestep.timeDelta);
 		calcBounce();
+		ball.update(timestep.timeDelta);
 		PixelTween.update(timestep.timeDelta);
 	}
+	
+	#if cheat
+	
+	private function cheatActivate()
+	{
+		wallBottom.isActive = true;
+		wallBottom.isSleep = true;
+		wallBottom.alpha = 1;
+	}
+	
+	#end
 	
 	private function addedToStage(e:Event) : Void 
 	{
@@ -111,24 +132,10 @@ class Game extends Sprite
 		}
 	}
 	
-	private function drawDebug() : Void
-	{		
-		graphics.lineStyle(1, 0xFF0000);
-		graphics.moveTo(Config.width / 2, 0);
-		graphics.lineTo(Config.width / 2, Config.height);
-		graphics.moveTo(0, Config.height / 2);
-		graphics.lineTo(Config.width, Config.height / 2);		
-		
-		graphics.lineStyle(1, 0x00FF00);
-		graphics.moveTo(wallLeft.x + wallLeft.width, 0);
-		graphics.lineTo(wallLeft.x + wallLeft.width, Config.height);
-		
-	}
-	
 	private function generateBall() : Ball
 	{		
 		var ball = new Ball();
-		ball.angle = -Math.PI + Math.random() * Math.PI * 2;
+		ball.angle =  -(Math.PI - Math.PI * (2 / 3)) / 2 + (-Math.PI * (2 / 3) * Math.random());
 		ball.speed = 2;
 		ball.x = Config.width / 2;
 		ball.y = Config.height / 2;
@@ -137,9 +144,11 @@ class Game extends Sprite
 	}
 	
 	private function calcBounce()
-	{		
-		if (ball.y + ball.speedY * timestep.timeDelta + Ball.radius < wallBottom.y + wallBottom.height) 
-		{			
+	{
+		var rayTraceResult = rayTrace(ball.y, ball.y + ball.speedY * timestep.timeDelta, wallBottom.y);
+		
+		if (ball.y < wallBottom.y + wallBottom.height || rayTraceResult)
+		{
 			if (ball.x + ball.speedX * timestep.timeDelta + Ball.radius > wallRight.x)
 			{
 				bounceBall(BouncePosition.RIGHT);
@@ -152,8 +161,9 @@ class Game extends Sprite
 			{
 				bounceBall(BouncePosition.TOP);
 			}
-			if (ball.y + ball.speedY * timestep.timeDelta + Ball.radius > wallBottom.y && wallBottom.isActive)
-			{
+			if (((ball.y + ball.speedY * timestep.timeDelta + Ball.radius > wallBottom.y) || (rayTraceResult)) && wallBottom.isActive)
+			{				
+				score.setScore(score.getScore() + 1);
 				bounceBall(BouncePosition.BOTTOM);
 			} 
 		} 
@@ -163,53 +173,45 @@ class Game extends Sprite
 		}
 	}
 	
+	private function rayTrace(pointMin : Float, pointMax : Float, staticPoint : Float)
+	{
+		return staticPoint >= pointMin && staticPoint <= pointMax;
+	}
+	
 	private function bounceBall(type : BouncePosition) : Void
-	{	
-		score.setScore(score.getScore() + 1);
-		
-		if (soundButton.isStateOn) 
+	{		
+		if (Config.soundOn) 
 		{
 			sound.play();
 		}
 		
-		PixelTween.generate(this, 5, ball.x, ball.y);
+		PixelTween.generate(this, 3, ball.x, ball.y);
 		
 		if (type == BouncePosition.RIGHT) 
 		{
 			if (ball.speedY > 0) 
-			{				
-				ball.angle = Math.PI / 2 + Math.random() * Math.PI / 2;
+			{
+				ball.angle = Math.PI - ball.angle;
 			} 
 			else 
 			{
-				ball.angle = -Math.PI / 2 - Math.random() * Math.PI / 2;
+				ball.angle = -Math.PI - ball.angle;
 			}
 		}
 		if (type == BouncePosition.LEFT) 
 		{
 			if (ball.speedY > 0) 
 			{				
-				ball.angle = Math.random() * Math.PI / 2;
+				ball.angle = Math.PI - ball.angle;
 			} 
 			else 
 			{
-				ball.angle = Math.random() * -Math.PI / 2;
+				ball.angle = -Math.PI - ball.angle;
 			}
 		}
-		if (type == BouncePosition.TOP) 
+		if (type == BouncePosition.TOP || type == BouncePosition.BOTTOM) 
 		{
-			if (ball.speedX > 0)
-			{				
-				ball.angle = Math.random() * Math.PI / 2;
-			} 
-			else 
-			{
-				ball.angle = Math.PI / 2 + Math.random() * Math.PI / 2;
-			}
-		}
-		if (type == BouncePosition.BOTTOM) 
-		{
-			ball.angle = Math.random() * -Math.PI;
+			ball.angle *= -1;			
 		}
 	}
 	

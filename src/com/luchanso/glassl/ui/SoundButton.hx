@@ -1,8 +1,9 @@
-package com.luchanso.glassl;
+package com.luchanso.glassl.ui;
 
 import flash.display.Bitmap;
 import flash.events.Event;
 import openfl.Assets;
+import openfl.display.PixelSnapping;
 import openfl.display.Sprite;
 import openfl.events.MouseEvent;
 
@@ -22,8 +23,8 @@ class SoundButton extends Sprite
 	{
 		super();
 		
-		soundOn = new Bitmap(Assets.getBitmapData("img/sound-on.png"));
-		soundOff = new Bitmap(Assets.getBitmapData("img/sound-off.png"));
+		soundOn = new Bitmap(Assets.getBitmapData("img/sound-on.png"), PixelSnapping.NEVER, true);
+		soundOff = new Bitmap(Assets.getBitmapData("img/sound-off.png"), PixelSnapping.NEVER, true);
 		
 		mouseEnabled = true;		
 		this.buttonMode = true;
@@ -52,14 +53,14 @@ class SoundButton extends Sprite
 	{
 		soundOff.visible = true;
 		soundOn.visible = false;
-		_isStateOn = false;
+		Config.soundOn = _isStateOn = false;
 	}
 	
 	public function setStateOn() : Void
 	{
 		soundOff.visible = false;
 		soundOn.visible = true;
-		_isStateOn = true;
+		Config.soundOn = _isStateOn = true;
 	}
 	
 	function get_isStateOn() : Bool 

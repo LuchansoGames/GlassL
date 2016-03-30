@@ -11,4 +11,6 @@ class Config
 	public static var colorScore : Int = 0xAFE7FE;
 	public static var width : Float = 600;
 	public static var height : Float = 700;
+	
+	public static var soundOn : Bool = true;
 }

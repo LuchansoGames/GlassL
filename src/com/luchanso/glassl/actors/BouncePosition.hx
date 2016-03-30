@@ -1,4 +1,4 @@
-package com.luchanso.glassl;
+package com.luchanso.glassl.actors;
 
 /**
  * @author Loutchansky Oleg

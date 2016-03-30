@@ -1,7 +1,8 @@
-package src.com.luchanso.glassl;
+package com.luchanso.glassl.actors;
 
 import com.luchanso.glassl.Config;
 import openfl.display.Sprite;
+import openfl.filters.DropShadowFilter;
 
 /**
  * ...

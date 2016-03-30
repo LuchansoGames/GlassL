@@ -1,5 +1,6 @@
-package com.luchanso.glassl;
+package com.luchanso.glassl.effects;
 
+import com.luchanso.glassl.effects.Pixel;
 import openfl.display.Sprite;
 
 /**

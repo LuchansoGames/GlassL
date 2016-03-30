@@ -1,4 +1,4 @@
-package src.com.luchanso.glassl;
+package com.luchanso.glassl.actors;
 
 import openfl.display.Sprite;
 
