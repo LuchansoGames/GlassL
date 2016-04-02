@@ -34,7 +34,14 @@ class SoundButton extends Sprite
 		addChild(soundOn);
 		addChild(soundOff);
 		
-		setStateOn();
+		if (Config.soundOn) 
+		{
+			setStateOn();
+		} 
+		else 
+		{
+			setStateOff();
+		}
 	}
 	
 	private function click(e:MouseEvent):Void 
