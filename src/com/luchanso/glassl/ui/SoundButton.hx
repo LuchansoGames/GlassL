@@ -26,7 +26,7 @@ class SoundButton extends Sprite
 		soundOn = new Bitmap(Assets.getBitmapData("img/sound-on.png"), PixelSnapping.NEVER, true);
 		soundOff = new Bitmap(Assets.getBitmapData("img/sound-off.png"), PixelSnapping.NEVER, true);
 		
-		mouseEnabled = true;		
+		mouseEnabled = true;
 		this.buttonMode = true;
 		
 		this.addEventListener(MouseEvent.CLICK, click);
@@ -42,6 +42,32 @@ class SoundButton extends Sprite
 		{
 			setStateOff();
 		}
+	}
+	
+	public function hide()
+	{
+		if (Config.soundOn) 
+		{
+			setStateOn();
+		} 
+		else 
+		{
+			setStateOff();
+		}
+		visible = false;
+	}
+	
+	public function show()
+	{
+		if (Config.soundOn) 
+		{
+			setStateOn();
+		} 
+		else 
+		{
+			setStateOff();
+		}
+		visible = true;
 	}
 	
 	private function click(e:MouseEvent):Void 
