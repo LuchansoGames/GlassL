@@ -2,6 +2,7 @@ package com.luchanso.glassl;
 
 import com.luchanso.glassl.scenes.Game;
 import com.luchanso.glassl.scenes.MainMenu;
+import com.luchanso.glassl.ui.MoneyLable;
 import com.luchanso.glassl.ui.SoundButton;
 import flash.events.Event;
 import flash.text.TextField;
@@ -23,19 +24,28 @@ class Main extends Sprite
 	var game : Game;
 	var soundButton : SoundButton;
 	var mainMenu : MainMenu;
+	var marginUi : Float = 10;
 
 	public function new() 
 	{
 		super();
 		
-		initMainMenu();
+		addEventListener(Event.ADDED_TO_STAGE, addedToStage);
+	}
+	
+	private function addedToStage(e:Event):Void 
+	{
+		removeEventListener(Event.ADDED_TO_STAGE, addedToStage);
+		
+		initMainMenu();		
+		//drawDebug();
+		
 		addFps();
-		// drawDebug();
 	}
 	
 	function addFps() 
 	{
-		var fps = new FPS();
+		var fps = new FPS(marginUi, Lib.current.stage.window.height - 18 - marginUi, 0xFFFFFF);
 		addChild(fps);
 	}
 	
@@ -54,8 +64,8 @@ class Main extends Sprite
 		soundButton.width = 40;
 		soundButton.height = 40;
 		
-		soundButton.x = 10;
-		soundButton.y = 10;
+		soundButton.x = Lib.current.stage.window.width - soundButton.width - marginUi;
+		soundButton.y = marginUi;
 		
 		addChild(soundButton);
 	}
