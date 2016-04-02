@@ -1,5 +1,9 @@
 package com.luchanso.glassl.scenes;
+import com.luchanso.glassl.effects.Circle;
+import com.luchanso.glassl.effects.CircleTween;
+import com.luchanso.glassl.ui.MoneyLable;
 import com.luchanso.glassl.ui.SoundButton;
+import flash.text.TextField;
 import motion.Actuate;
 import openfl.Assets;
 import openfl.Lib;
@@ -8,6 +12,9 @@ import openfl.display.PixelSnapping;
 import openfl.display.Sprite;
 import openfl.events.Event;
 import openfl.events.MouseEvent;
+import openfl.text.AntiAliasType;
+import openfl.text.TextFieldAutoSize;
+import openfl.text.TextFormat;
 
 /**
  * ...
@@ -18,16 +25,42 @@ class MainMenu extends Sprite
 	public static var EVENT_PLAY = "play";	
 
 	static var buttonSize = 185;
+	static var firstColor = 0xFFFFFF;
+	static var secondColor = Config.colorLight;
+	static var marginButtonsTop = 0;
 	
 	var bPlay : Sprite;
 	var bPay : Sprite;
 	var soundButton : SoundButton;
+	
+	var moneyLable : MoneyLable;
 
 	public function new() 
 	{
 		super();
 		
+		addEventListener(Event.ENTER_FRAME, update);
 		addEventListener(Event.ADDED_TO_STAGE, init);
+	}
+	
+	private function update(e:Event):Void 
+	{
+		if (CircleTween.cirlces.length < 5) 
+		{
+			CircleTween.generate(this,  
+				Math.random() * (Lib.current.stage.window.width - Circle.maximalRadius / 4),
+				Math.random() * (Lib.current.stage.window.height - Circle.maximalRadius / 4));
+		}
+	}
+	
+	function addMoneyLable()
+	{
+		moneyLable = new MoneyLable();
+		
+		moneyLable.x = (bPay.x + bPay.width / 2) - moneyLable.width / 2;
+		moneyLable.y = (bPay.y + bPay.height);
+		
+		addChild(moneyLable);
 	}
 	
 	private function init(e:Event):Void 
@@ -37,16 +70,62 @@ class MainMenu extends Sprite
 		addButtonPlay();
 		addButtonPay();
 		addSoundBtton();
+		addMoneyLable();
+		
+		addAnimationForButtons();
+		
+		addGameName();
+	}
+	
+	function addGameName() 
+	{
+		var logo = new Bitmap(Assets.getBitmapData("img/logo.png"), PixelSnapping.AUTO, true);
+		
+		logo.x = Lib.current.stage.window.width / 2 - logo.width / 2;
+		logo.y = 30;
+		
+		addChild(logo);
+	}
+	
+	function addAnimationForButtons() 
+	{
+		var fadeIn = function(e:MouseEvent) 
+		{
+			if (e.target == bPay) 
+			{
+				Actuate.transform(moneyLable, 0.25).color(secondColor);
+			}
+			Actuate.transform(e.target, 0.25).color(secondColor);
+		}
+		
+		var fadeOut = function(e:MouseEvent)
+		{
+			if (e.target == bPay) 
+			{
+				Actuate.transform(moneyLable, 0.25).color(firstColor);
+			}
+			Actuate.transform(e.target, 0.25).color(firstColor);
+		}
+		
+		bPay.addEventListener(MouseEvent.MOUSE_OVER, fadeIn);
+		bPlay.addEventListener(MouseEvent.MOUSE_OVER, fadeIn);
+		soundButton.addEventListener(MouseEvent.MOUSE_OVER, fadeIn);		
+		
+		bPay.addEventListener(MouseEvent.MOUSE_OUT, fadeOut);
+		bPlay.addEventListener(MouseEvent.MOUSE_OUT, fadeOut);
+		soundButton.addEventListener(MouseEvent.MOUSE_OUT, fadeOut);
 	}
 	
 	function addSoundBtton() 
 	{
+		var paddingTop = 150;
+		
 		soundButton = new SoundButton();
 		
 		soundButton.width = 80;
 		soundButton.height = 80;
 		soundButton.x = Lib.current.stage.window.width / 2 - soundButton.width / 2;
-		soundButton.y = Lib.current.stage.window.height / 2 - soundButton.height / 2 + Lib.current.stage.window.height / 12;
+		soundButton.y = Lib.current.stage.window.height / 2 - soundButton.height / 2 + paddingTop  + marginButtonsTop;
 		
 		addChild(soundButton);
 	}
@@ -60,19 +139,13 @@ class MainMenu extends Sprite
 		bPay.height = MainMenu.buttonSize;
 		
 		bPay.x = Lib.current.stage.window.width / 2 - bPay.width / 2 - Lib.current.stage.window.width / 4;
-		bPay.y = Lib.current.stage.window.height / 2 - bPay.height / 2 - Lib.current.stage.window.height / 8;
+		bPay.y = Lib.current.stage.window.height / 2 - bPay.height / 2 + marginButtonsTop;
 		
 		bPay.buttonMode = true;
 		
 		bPay.addEventListener(MouseEvent.CLICK, paymentActivate);
-		bPay.addEventListener(MouseEvent.MOUSE_OVER, mouseOver);
 		
 		addChild(bPay);
-	}
-	
-	private function mouseOver(e:MouseEvent):Void 
-	{
-		//Actuate.tween(e.target, 100, { width: e.target.width * 1.1, height: e.target.height * 1.1 } ).reverse();
 	}
 	
 	private function paymentActivate(e:MouseEvent):Void 
@@ -89,7 +162,7 @@ class MainMenu extends Sprite
 		bPlay.height = MainMenu.buttonSize;
 		
 		bPlay.x = Lib.current.stage.window.width / 2 - bPlay.width / 2 + Lib.current.stage.window.width / 4;
-		bPlay.y = Lib.current.stage.window.height / 2 - bPlay.height / 2 - Lib.current.stage.window.height / 8;
+		bPlay.y = Lib.current.stage.window.height / 2 - bPlay.height / 2 + marginButtonsTop;
 		
 		bPlay.buttonMode = true;		
 		
