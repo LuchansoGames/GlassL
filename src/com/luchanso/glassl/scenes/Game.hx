@@ -35,26 +35,29 @@ class Game extends Sprite
 	var score : Score;
 	var accelerateTimer : Timer;
 	var sound : Sound;
-	var soundButton : SoundButton;
 	
 	var timestep : Timestep;
 	
 	static var diametr : Float = 20;
 	static var margin : Float = 50;
-	static var widthWall : Float = 450;
-	static var heightWall : Float = Config.height - (margin * 2 + diametr);
+	
+	var widthWall : Float = 0;
+	var heightWall : Float = 0;
 
 	public function new()
 	{
 		super();
 		
+		widthWall = 450;
+		heightWall = Lib.current.stage.window.height - (margin * 2 + diametr);
+		
 		timestep = new Timestep();
 		timestep.gameSpeed = 0.65;
 		
-		wallTop = new Wall(Config.width / 2 - widthWall / 2, margin, widthWall, diametr);
-		wallLeft = new Wall(Config.width / 2 - widthWall / 2 - diametr, margin, diametr, heightWall);
-		wallRight = new Wall(Config.width / 2 - widthWall / 2 + widthWall, margin, diametr, heightWall);
-		wallBottom = new DynamicWall((Config.width / 2 - widthWall / 2), margin + heightWall - diametr / 2, widthWall, diametr / 2);
+		wallTop = new Wall(Lib.current.stage.window.width / 2 - widthWall / 2, margin, widthWall, diametr);
+		wallLeft = new Wall(Lib.current.stage.window.width / 2 - widthWall / 2 - diametr, margin, diametr, heightWall);
+		wallRight = new Wall(Lib.current.stage.window.width / 2 - widthWall / 2 + widthWall, margin, diametr, heightWall);
+		wallBottom = new DynamicWall((Lib.current.stage.window.width / 2 - widthWall / 2), margin + heightWall - diametr / 2, widthWall, diametr / 2);
 		
 		score = new Score();
 		
@@ -137,8 +140,8 @@ class Game extends Sprite
 		var ball = new Ball();
 		ball.angle =  -(Math.PI - Math.PI * (2 / 3)) / 2 + (-Math.PI * (2 / 3) * Math.random());
 		ball.speed = 2;
-		ball.x = Config.width / 2;
-		ball.y = Config.height / 2;
+		ball.x = Lib.current.stage.window.width / 2;
+		ball.y = Lib.current.stage.window.height / 2;
 		
 		return ball;
 	}
@@ -161,13 +164,15 @@ class Game extends Sprite
 			{
 				bounceBall(BouncePosition.TOP);
 			}
-			if (((ball.y + ball.speedY * timestep.timeDelta + Ball.radius > wallBottom.y) || (rayTraceResult)) && wallBottom.isActive)
+			if ((((ball.y + ball.speedY * timestep.timeDelta + Ball.radius > wallBottom.y) || (rayTraceResult))
+				&& wallBottom.isActive) 
+				&& ball.speedY > 0)
 			{				
 				score.setScore(score.getScore() + 1);
 				bounceBall(BouncePosition.BOTTOM);
 			} 
 		} 
-		else if (ball.y + ball.speedY * timestep.timeDelta + Ball.radius > Config.height)
+		else if (ball.y + ball.speedY * timestep.timeDelta - Ball.radius  > Lib.current.stage.window.height)
 		{
 			lose();
 		}
@@ -189,6 +194,7 @@ class Game extends Sprite
 		
 		if (type == BouncePosition.RIGHT) 
 		{
+			wallRight.bounce();
 			if (ball.speedY > 0) 
 			{
 				ball.angle = Math.PI - ball.angle;
@@ -200,6 +206,7 @@ class Game extends Sprite
 		}
 		if (type == BouncePosition.LEFT) 
 		{
+			wallLeft.bounce();
 			if (ball.speedY > 0) 
 			{				
 				ball.angle = Math.PI - ball.angle;
@@ -209,9 +216,14 @@ class Game extends Sprite
 				ball.angle = -Math.PI - ball.angle;
 			}
 		}
-		if (type == BouncePosition.TOP || type == BouncePosition.BOTTOM) 
+		if (type == BouncePosition.TOP) 
 		{
-			ball.angle *= -1;			
+			wallTop.bounce();
+			ball.angle *= -1;
+		}
+		if (type == BouncePosition.BOTTOM) 
+		{
+			ball.angle *= -1;
 		}
 	}
 	
@@ -224,6 +236,8 @@ class Game extends Sprite
 	{
 		this.removeEventListener(Event.ENTER_FRAME, update);
 		this.stage.removeEventListener(MouseEvent.CLICK, click);
+		this.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
+		
 		this.dispatchEvent(new Event("lose"));
 	}
 }
