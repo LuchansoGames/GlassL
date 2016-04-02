@@ -24,7 +24,7 @@ import com.luchanso.glassl.actors.Wall;
  * ...
  * @author Loutchansky Oleg
  */
-class Game extends Sprite 
+class Game extends Scene 
 {	
 	var ball : Ball;
 	
@@ -238,6 +238,9 @@ class Game extends Sprite
 		this.stage.removeEventListener(MouseEvent.CLICK, click);
 		this.stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDown);
 		
-		this.dispatchEvent(new Event("lose"));
+		var loseEvent = new GameEvent(GameEvent.LOSE);
+		loseEvent.score = score.getScore();
+		
+		this.dispatchEvent(loseEvent);
 	}
 }
