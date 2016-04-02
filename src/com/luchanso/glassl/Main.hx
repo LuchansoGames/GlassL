@@ -1,6 +1,8 @@
 package com.luchanso.glassl;
 
 import com.luchanso.glassl.scenes.Game;
+import com.luchanso.glassl.scenes.GameEvent;
+import com.luchanso.glassl.scenes.LoseMenu;
 import com.luchanso.glassl.scenes.MainMenu;
 import com.luchanso.glassl.ui.MoneyLable;
 import com.luchanso.glassl.ui.SoundButton;
@@ -24,6 +26,7 @@ class Main extends Sprite
 	var game : Game;
 	var soundButton : SoundButton;
 	var mainMenu : MainMenu;
+	var loseMenu : LoseMenu;
 	var marginUi : Float = 10;
 
 	public function new() 
@@ -37,10 +40,24 @@ class Main extends Sprite
 	{
 		removeEventListener(Event.ADDED_TO_STAGE, addedToStage);
 		
-		initMainMenu();		
+		initMainMenu();
+		initLoseMenu();
 		//drawDebug();
 		
+		//loseMenu.show();
+		
+		addSoundButtonToStage();
+		
 		addFps();
+	}
+	
+	function initLoseMenu() : Void
+	{
+		loseMenu = new LoseMenu();
+		loseMenu.hide();
+		loseMenu.addEventListener(GameEvent.PLAY, startGame);
+		
+		addChild(loseMenu);
 	}
 	
 	function addFps() 
@@ -67,10 +84,12 @@ class Main extends Sprite
 		soundButton.x = Lib.current.stage.window.width - soundButton.width - marginUi;
 		soundButton.y = marginUi;
 		
+		soundButton.visible = false;
+		
 		addChild(soundButton);
 	}
 	
-	private function startGame(e:Event)
+	private function startGame(e:Event = null)
 	{
 		if (mainMenu != null) 
 		{
@@ -78,25 +97,27 @@ class Main extends Sprite
 			mainMenu = null;
 		}
 		
+		loseMenu.hide();
+		
 		if (game != null)
 		{
 			this.removeChild(game);
 		}
-		else 
-		{
-			addSoundButtonToStage();
-		}
 		
+		soundButton.show();
 		game = new Game();
 		Lib.current.stage.focus = game;
 		
-		game.addEventListener("lose", lose);
+		game.addEventListener(GameEvent.LOSE, lose);
 		addChild(game);
 	}	
 	
-	private function lose(e:Event):Void 
+	private function lose(e:GameEvent):Void 
 	{
-		
+		game.hide();
+		soundButton.hide();
+		loseMenu.setScore(e.score);
+		loseMenu.show();
 	}
 	
 	private function drawDebug() : Void
