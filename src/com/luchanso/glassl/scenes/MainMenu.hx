@@ -20,7 +20,7 @@ import openfl.text.TextFormat;
  * ...
  * @author Loutchansky Oleg
  */
-class MainMenu extends Sprite
+class MainMenu extends Scene
 {
 	public static var EVENT_PLAY = "play";	
 
@@ -133,7 +133,7 @@ class MainMenu extends Sprite
 	function addButtonPay() 
 	{
 		bPay = new Sprite();
-		bPay.addChild(new Bitmap(Assets.getBitmapData("img/star.png"), PixelSnapping.NEVER, true));
+		bPay.addChild(new Bitmap(Assets.getBitmapData("img/basket.png"), PixelSnapping.NEVER, true));
 		
 		bPay.width = MainMenu.buttonSize;
 		bPay.height = MainMenu.buttonSize;
@@ -143,14 +143,9 @@ class MainMenu extends Sprite
 		
 		bPay.buttonMode = true;
 		
-		bPay.addEventListener(MouseEvent.CLICK, paymentActivate);
+		bPay.addEventListener(MouseEvent.CLICK, VKController.paymentActivate);
 		
 		addChild(bPay);
-	}
-	
-	private function paymentActivate(e:MouseEvent):Void 
-	{
-		
 	}
 	
 	function addButtonPlay() 
