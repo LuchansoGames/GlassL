@@ -2,6 +2,7 @@ package com.luchanso.glassl.ui;
 
 import flash.text.TextField;
 import flash.text.TextFormat;
+import openfl.Lib;
 import openfl.display.Sprite;
 import openfl.text.TextFieldAutoSize;
 
@@ -23,10 +24,10 @@ class Score extends TextField
 		this.selectable = false;
 		this.mouseEnabled = false;
 		
-		this.text = "0";
+		this.text = "0";		
 		
-		this.x = Config.width / 2 - this.width / 2;
-		this.y = Config.height / 2 - this.height / 2;
+		this.x = Lib.current.stage.window.width / 2 - this.width / 2;
+		this.y = Lib.current.stage.window.height / 2 - this.height / 2;
 	}
 	
 	public function setScore(score : Int)
@@ -49,8 +50,8 @@ class Score extends TextField
 		
 		this.defaultTextFormat = new TextFormat("Arial", fontSize);
 		this.text = score + "";
-		this.x = Config.width / 2 - this.width / 2;
-		this.y = Config.height / 2 - this.height / 2;
+		this.x = Lib.current.stage.window.width / 2 - this.width / 2;
+		this.y = Lib.current.stage.window.height / 2 - this.height / 2;
 	}
 	
 	public function getScore()
