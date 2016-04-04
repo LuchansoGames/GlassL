@@ -16,6 +16,7 @@
 	<source path="src" />
 	<haxelib name="openfl" />
 	<haxelib name="actuate" />
+	<haxelib name="ltools" />
 	
 	<!-- assets -->
 	<assets path="assets/img" rename="img" />
@@ -24,6 +25,6 @@
 	<!-- optimize output
 	<haxeflag name="-dce full" /> -->	
 	
-	<!-- <haxedef name="cheat" /> -->
+	<!--  <haxedef name="cheat" /> -->
 	
 </project>

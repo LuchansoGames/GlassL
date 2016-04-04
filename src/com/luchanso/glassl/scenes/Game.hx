@@ -25,7 +25,7 @@ import com.luchanso.glassl.actors.Wall;
  * @author Loutchansky Oleg
  */
 class Game extends Scene 
-{	
+{
 	var ball : Ball;
 	
 	var wallTop : Wall;
@@ -88,7 +88,11 @@ class Game extends Scene
 	
 	private function accelrateGame(e:TimerEvent):Void 
 	{
-		ball.speed += 0.01;
+		//ball.speed += 0.01;
+		if (timestep.gameSpeed < 4) 
+		{
+			timestep.gameSpeed += 0.01;
+		}
 	}
 	
 	private function update(e:Event) : Void 
@@ -148,7 +152,7 @@ class Game extends Scene
 	
 	private function calcBounce()
 	{
-		var rayTraceResult = rayTrace(ball.y, ball.y + ball.speedY * timestep.timeDelta, wallBottom.y);
+		var rayTraceResult = rayTrace(ball.y, ball.y + ball.speedY * timestep.timeDelta, wallBottom.y);		
 		
 		if (ball.y < wallBottom.y + wallBottom.height || rayTraceResult)
 		{
@@ -178,7 +182,7 @@ class Game extends Scene
 		}
 	}
 	
-	private function rayTrace(pointMin : Float, pointMax : Float, staticPoint : Float)
+	private function rayTrace(pointMin : Float, pointMax : Float, staticPoint : Float) : Bool
 	{
 		return staticPoint >= pointMin && staticPoint <= pointMax;
 	}

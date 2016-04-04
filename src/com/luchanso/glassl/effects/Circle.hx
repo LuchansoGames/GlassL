@@ -43,8 +43,6 @@ class Circle extends Sprite
 		var speed = 15 + Math.random() * 20;
 		var distance = direction * speed * lifeTime;
 		
-		trace(distance);
-		
 		Actuate.tween(this, lifeTime / 2, { alpha : 1 } ).ease(Back.easeOut).onComplete(function() {
 			Actuate.tween(this, lifeTime / 2, { alpha: 0 } ).ease(Back.easeIn).onComplete(destroy);			
 		});
