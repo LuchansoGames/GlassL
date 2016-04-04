@@ -3,8 +3,10 @@ package com.luchanso.glassl.ui.table;
 import motion.Actuate;
 import motion.easing.Linear;
 import motion.easing.Quint;
+import openfl.Assets;
 import openfl.Lib;
 import openfl.display.Bitmap;
+import openfl.display.PixelSnapping;
 import openfl.display.Sprite;
 import openfl.text.TextField;
 import openfl.text.TextFieldAutoSize;
@@ -25,6 +27,7 @@ class Row extends Sprite
 	
 	var position : TextField;
 	var avatar : Bitmap;
+	var avatarFilter : Bitmap;
 	var username : TextField;
 	var score : TextField;
 	
@@ -33,7 +36,7 @@ class Row extends Sprite
 		super();
 		
 		this.tableWidth = tableWidth;
-		
+				
 		addPositionLable(position);
 		addAvatar(avatar);
 		addScore(score);
@@ -79,12 +82,19 @@ class Row extends Sprite
 	function addAvatar(avatar : Bitmap) 
 	{
 		this.avatar = avatar;
-		this.avatar.height = heightRow * 0.75;
 		this.avatar.width = heightRow * 0.75;
+		this.avatar.height = heightRow * 0.75;
 		this.avatar.x = position.x + position.width + padding;
 		this.avatar.y = heightRow / 2 - this.avatar.height / 2;
 		
+		avatarFilter = new Bitmap(Assets.getBitmapData("img/filter.png"), PixelSnapping.AUTO, true);
+		avatarFilter.width = this.avatar.width;
+		avatarFilter.height = this.avatar.height;
+		avatarFilter.x = this.avatar.x;
+		avatarFilter.y = this.avatar.y;
+		
 		addChild(this.avatar);
+		addChild(avatarFilter);
 	}
 	
 	function addPositionLable(position : Int)

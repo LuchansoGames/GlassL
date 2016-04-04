@@ -52,9 +52,9 @@ class LoseMenu extends Scene
 		
 		addAnimationForButtons();
 		
-		drawScore();
-		drawRating();
-		drawADS();
+		//drawScore();
+		//drawRating();
+		//drawADS();
 		
 		addTableRating();	
 		addADS();
