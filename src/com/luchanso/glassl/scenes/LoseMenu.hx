@@ -1,6 +1,7 @@
 package com.luchanso.glassl.scenes;
 
 import com.luchanso.glassl.ui.ADS;
+import com.luchanso.glassl.ui.dialogs.ReliveDialog;
 import com.luchanso.glassl.ui.table.Rating;
 import flash.text.TextField;
 import motion.Actuate;
@@ -26,6 +27,7 @@ class LoseMenu extends Scene
 	var bRelive : Sprite;
 	var bShare : Sprite;
 	var scoreLable : TextField;
+	var reliveDialog : ReliveDialog;
 	
 	var ads : ADS;
 	
@@ -60,6 +62,15 @@ class LoseMenu extends Scene
 		
 		addTableRating();	
 		addADS();
+		addReliveDialog();
+	}
+	
+	function addReliveDialog() 
+	{
+		reliveDialog = new ReliveDialog();
+		reliveDialog.hide();
+		
+		addChild(reliveDialog);
 	}
 	
 	function addTableRating() 
@@ -158,9 +169,14 @@ class LoseMenu extends Scene
 		
 		bRelive.buttonMode = true;
 		
-		bRelive.addEventListener(MouseEvent.CLICK, VKController.paymentActivate);
+		bRelive.addEventListener(MouseEvent.CLICK, click_bRelive);
 		
 		addChild(bRelive);
+	}
+	
+	private function click_bRelive(e:MouseEvent):Void 
+	{
+		reliveDialog.show();
 	}
 	
 	function addButtonShare() 
