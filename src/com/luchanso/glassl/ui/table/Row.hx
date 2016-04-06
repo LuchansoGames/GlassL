@@ -63,8 +63,6 @@ class Row extends Sprite
 		
 		var textSizePx = Std.int(this.username.width);
 		
-		trace(textSizePx);
-		
 		if (this.username.width > usernameWidth) 
 		{
 			this.username.autoSize = TextFieldAutoSize.NONE;

@@ -2,6 +2,7 @@ package com.luchanso.glassl.scenes;
 
 import com.luchanso.glassl.ui.ADS;
 import com.luchanso.glassl.ui.table.Rating;
+import flash.text.TextField;
 import motion.Actuate;
 import openfl.Assets;
 import openfl.Lib;
@@ -11,6 +12,8 @@ import openfl.display.Sprite;
 import openfl.events.Event;
 import openfl.events.KeyboardEvent;
 import openfl.events.MouseEvent;
+import openfl.text.TextFieldAutoSize;
+import openfl.text.TextFormat;
 import openfl.ui.Keyboard;
 
 /**
@@ -22,6 +25,7 @@ class LoseMenu extends Scene
 	var bPlay : Sprite;
 	var bRelive : Sprite;
 	var bShare : Sprite;
+	var scoreLable : TextField;
 	
 	var ads : ADS;
 	
@@ -32,9 +36,9 @@ class LoseMenu extends Scene
 	static var margin = 15;
 	
 	var tableSizeWidth = Lib.current.stage.window.width - 250;
-	var tableSizeHeight = Lib.current.stage.window.height - (185 + margin * 2);
+	var tableSizeHeight = Lib.current.stage.window.height - 185;
 	var paddingTopBtn : Float;
-	var marginBtn = 35;
+	var marginBtn = 15;
 	var tableRating : Rating;
 	
 	// Рекламный блок = 185px
@@ -44,17 +48,15 @@ class LoseMenu extends Scene
 		
 		addEventListener(Event.ADDED_TO_STAGE, addedToStage);
 		
-		paddingTopBtn = (tableSizeHeight + margin * 2) / 2 - ((buttonSize) * 3 + marginBtn * 2) / 2;
+		paddingTopBtn = tableSizeHeight / 2 - ((buttonSize) * 3 + marginBtn * 2) / 2 + 35;
 		
 		addButtonPlay();
 		addButtonRelive();
 		addButtonShare();
 		
-		addAnimationForButtons();
+		addScoreLable();
 		
-		//drawScore();
-		//drawRating();
-		//drawADS();
+		addAnimationForButtons();
 		
 		addTableRating();	
 		addADS();
@@ -80,7 +82,24 @@ class LoseMenu extends Scene
 	
 	public function setScore(score : Int)
 	{
+		var windowWidth = Lib.current.stage.window.width;
+		scoreLable.text = score + " pts";
+		scoreLable.x = windowWidth - (windowWidth - (tableSizeWidth + margin)) / 2 - scoreLable.width / 2;
+	}
+	
+	function addScoreLable()
+	{
+		scoreLable = new TextField();
+		scoreLable.defaultTextFormat = new TextFormat("Arial", 50, 0xFFFFFF);
+		scoreLable.autoSize = TextFieldAutoSize.LEFT;
+		scoreLable.selectable = false;
+		scoreLable.mouseEnabled = false;
 		
+		scoreLable.y = margin;
+		
+		setScore(0);
+		
+		addChild(scoreLable);
 	}
 	
 	function addAnimationForButtons() 
@@ -164,33 +183,9 @@ class LoseMenu extends Scene
 		addChild(bShare);
 	}
 	
-	function drawScore()
-	{
-		var windowWidth = Lib.current.stage.window.width;
-		var sizeScore = (tableSizeHeight + margin * 2) / 10;
-		
-		graphics.lineStyle(3, Config.colorLight);
-		graphics.moveTo(0, (tableSizeHeight + margin * 2) - sizeScore);
-		graphics.lineTo(tableSizeWidth + margin, (tableSizeHeight + margin * 2) - sizeScore);		
-	}
-	
 	private function bPlay_click(e:MouseEvent):Void 
 	{
 		dispatchEvent(new Event(GameEvent.PLAY));
-	}
-	
-	// Рисовать 10 строк по 51.5px
-	function drawRating()
-	{		
-		graphics.lineStyle(3, Config.colorLight);		
-		graphics.moveTo(tableSizeWidth + margin, 0);
-		graphics.lineTo(tableSizeWidth + margin, tableSizeHeight + margin * 2);
-	}
-	
-	function drawADS()
-	{
-		graphics.lineStyle(3, 0xFF2D32);
-		graphics.drawRect(0, Lib.current.stage.window.height - 185, Lib.current.stage.window.width, 185);
 	}
 	
 	function addADS()

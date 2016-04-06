@@ -40,15 +40,19 @@ class Main extends Sprite
 	{
 		removeEventListener(Event.ADDED_TO_STAGE, addedToStage);
 		
-		initMainMenu();
+		//initMainMenu();
 		initLoseMenu();
 		//drawDebug();
 		
-		//loseMenu.show();
+		loseMenu.show();
 		
 		addSoundButtonToStage();
 		
+		#if debug
+		
 		addFps();
+		
+		#end
 	}
 	
 	function initLoseMenu() : Void
