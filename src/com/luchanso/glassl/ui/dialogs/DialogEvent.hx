@@ -7,7 +7,7 @@ import flash.events.Event;
  */
 class DialogEvent extends Event
 {	
-	public static CLOSE = "close";
+	public static var CLOSE = "close";
 
 	public function new(type:String, bubbles:Bool=false, cancelable:Bool=false) 
 	{
