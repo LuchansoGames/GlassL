@@ -1,6 +1,7 @@
 package com.luchanso.glassl.ui.dialogs;
 
 import flash.display.Sprite;
+import motion.Actuate;
 import openfl.Lib;
 import openfl.events.Event;
 import openfl.events.MouseEvent;
@@ -16,6 +17,8 @@ class Dialog extends Sprite
 	
 	var marginLeft : Float;
 	var marginTop : Float;
+	
+	static var animationTime = 0.45;
 
 	public function new()
 	{
@@ -73,7 +76,9 @@ class Dialog extends Sprite
 	
 	public function show() : Void
 	{
-		visible = true;
+		visible = true;		
+		alpha = 0;
+		Actuate.tween(this, animationTime, { alpha: 1 } );
 	}
 	
 	public function hide() : Void

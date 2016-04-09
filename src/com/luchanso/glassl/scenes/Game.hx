@@ -88,7 +88,6 @@ class Game extends Scene
 	
 	private function accelrateGame(e:TimerEvent):Void 
 	{
-		//ball.speed += 0.01;
 		if (timestep.gameSpeed < 4) 
 		{
 			timestep.gameSpeed += 0.01;

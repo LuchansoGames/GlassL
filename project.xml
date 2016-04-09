@@ -26,5 +26,6 @@
 	<haxeflag name="-dce full" /> -->	
 	
 	<!--  <haxedef name="cheat" /> -->
+	<haxedef name="vk_build" />
 	
 </project>

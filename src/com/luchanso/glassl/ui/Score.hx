@@ -18,7 +18,7 @@ class Score extends TextField
 	var bindY : Float = 0;
 	var score : Int = 0;
 	
-	static var animationTime = 0.2;
+	static var animationTime = 0.1;
 	
 	public function new()
 	{
