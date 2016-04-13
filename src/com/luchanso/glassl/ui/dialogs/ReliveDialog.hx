@@ -2,6 +2,7 @@ package com.luchanso.glassl.ui.dialogs;
 
 import com.luchanso.glassl.ui.TextButton;
 import openfl.display.Sprite;
+import openfl.events.MouseEvent;
 import openfl.text.TextField;
 import openfl.text.TextFieldAutoSize;
 import openfl.text.TextFormat;
@@ -19,6 +20,7 @@ class ReliveDialog extends Dialog
 	
 	var reliveButton : TextButton;
 	var purchasesButton : TextButton;
+	var closeButton : TextButton;
 	
 	static var margin : Float = 10;
 	static var padding : Float = 10;
@@ -36,8 +38,30 @@ class ReliveDialog extends Dialog
 		addSplitLine();
 		
 		addHeadePurchase();
-		addDescriptionPurchases();		
+		addDescriptionPurchases();
 		addPurchasesButton();
+		addCloseButton();
+	}
+	
+	function addCloseButton() 
+	{
+		closeButton = new TextButton();
+		closeButton.color = 0xE53935;
+		closeButton.hoverColor = 0xD32F2F;
+		closeButton.text = "Закрыть";
+		
+		closeButton.x = this.marginLeft + this.dWidth / 2 - closeButton.width / 2;
+		closeButton.y = this.marginTop + this.dHeight - margin - closeButton.height;
+		
+		closeButton.addEventListener(MouseEvent.CLICK, closeButton_click);
+		
+		addChild(closeButton);
+	}
+	
+	private function closeButton_click(e:MouseEvent):Void 
+	{
+		dispatchEvent(new DialogEvent(DialogEvent.CLOSE));
+		this.hide();
 	}
 	
 	function addPurchasesButton() 
@@ -48,7 +72,14 @@ class ReliveDialog extends Dialog
 		purchasesButton.x = this.marginLeft + this.dWidth / 2 - purchasesButton.width / 2;
 		purchasesButton.y = descriptionPurchases.y + descriptionPurchases.height + padding;
 		
+		purchasesButton.addEventListener(MouseEvent.CLICK, purchasesButton_click);
+		
 		addChild(purchasesButton);
+	}
+	
+	private function purchasesButton_click(e:MouseEvent):Void 
+	{
+		dispatchEvent(new DialogReliveEvent(DialogReliveEvent.BUY_COINS));
 	}
 	
 	function addDescriptionPurchases() 
@@ -146,7 +177,13 @@ class ReliveDialog extends Dialog
 		reliveButton.x = this.marginLeft + this.dWidth / 2 - reliveButton.width / 2;
 		reliveButton.y = descriptionRelive.y + descriptionRelive.height + padding;
 		
+		reliveButton.addEventListener(MouseEvent.CLICK, reliveButton_click);
+		
 		addChild(reliveButton);
 	}
 	
+	private function reliveButton_click(e:MouseEvent):Void 
+	{
+		dispatchEvent(new DialogReliveEvent(DialogReliveEvent.RELIVE));
+	}	
 }

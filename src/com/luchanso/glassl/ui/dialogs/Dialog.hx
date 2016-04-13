@@ -18,7 +18,7 @@ class Dialog extends Sprite
 	var marginLeft : Float;
 	var marginTop : Float;
 	
-	static var animationTime = 0.45;
+	static var animationTime = 0.35;
 
 	public function new()
 	{
@@ -82,7 +82,10 @@ class Dialog extends Sprite
 	}
 	
 	public function hide() : Void
-	{
-		visible = false;
+	{		
+		Actuate.tween(this, animationTime, { alpha: 0 } ).onComplete(function ()
+		{
+			visible = false;
+		});
 	}	
 }

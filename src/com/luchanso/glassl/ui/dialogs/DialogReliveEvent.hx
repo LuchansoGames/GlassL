@@ -8,7 +8,8 @@ import openfl.events.Event;
  */
 class DialogReliveEvent extends DialogEvent
 {
-	public static RELIVE = "relive";
+	public static var RELIVE = "relive";
+	public static var BUY_COINS = "buyCoins";
 
 	public function new(type:String, bubbles:Bool=false, cancelable:Bool=false) 
 	{

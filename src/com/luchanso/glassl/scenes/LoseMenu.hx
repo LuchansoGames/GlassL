@@ -68,7 +68,8 @@ class LoseMenu extends Scene
 	function addReliveDialog() 
 	{
 		reliveDialog = new ReliveDialog();
-		reliveDialog.hide();
+		reliveDialog.visible = false;
+		reliveDialog.alpha = 0;
 		
 		addChild(reliveDialog);
 	}
