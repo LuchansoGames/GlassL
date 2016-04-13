@@ -3,6 +3,7 @@ import com.luchanso.glassl.effects.Circle;
 import com.luchanso.glassl.effects.CircleTween;
 import com.luchanso.glassl.ui.MoneyLable;
 import com.luchanso.glassl.ui.SoundButton;
+import com.luchanso.glassl.vk.VKController;
 import flash.text.TextField;
 import motion.Actuate;
 import openfl.Assets;
@@ -143,7 +144,11 @@ class MainMenu extends Scene
 		
 		bPay.buttonMode = true;
 		
+		#if vk_build
+		
 		bPay.addEventListener(MouseEvent.CLICK, VKController.paymentActivate);
+		
+		#end
 		
 		addChild(bPay);
 	}

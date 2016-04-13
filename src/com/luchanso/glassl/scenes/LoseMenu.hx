@@ -1,8 +1,10 @@
 package com.luchanso.glassl.scenes;
 
 import com.luchanso.glassl.ui.ADS;
+import com.luchanso.glassl.ui.dialogs.DialogReliveEvent;
 import com.luchanso.glassl.ui.dialogs.ReliveDialog;
 import com.luchanso.glassl.ui.table.Rating;
+import com.luchanso.glassl.vk.VKController;
 import flash.text.TextField;
 import motion.Actuate;
 import openfl.Assets;
@@ -43,6 +45,8 @@ class LoseMenu extends Scene
 	var marginBtn = 15;
 	var tableRating : Rating;
 	
+	var score : Int = 0;
+	
 	// Рекламный блок = 185px
 	public function new() 
 	{
@@ -71,7 +75,18 @@ class LoseMenu extends Scene
 		reliveDialog.visible = false;
 		reliveDialog.alpha = 0;
 		
+		reliveDialog.addEventListener(DialogReliveEvent.BUY_COINS, buy_coins);
+		
 		addChild(reliveDialog);
+	}
+	
+	private function buy_coins(e:DialogReliveEvent):Void 
+	{
+		#if vk_build
+		
+		VKController.paymentActivate();
+		
+		#end
 	}
 	
 	function addTableRating() 
@@ -94,6 +109,7 @@ class LoseMenu extends Scene
 	
 	public function setScore(score : Int)
 	{
+		this.score = score;
 		var windowWidth = Lib.current.stage.window.width;
 		scoreLable.text = score + " pts";
 		scoreLable.x = windowWidth - (windowWidth - (tableSizeWidth + margin)) / 2 - scoreLable.width / 2;
@@ -195,9 +211,14 @@ class LoseMenu extends Scene
 		
 		bShare.buttonMode = true;
 		
-		bShare.addEventListener(MouseEvent.CLICK, VKController.paymentActivate);
+		bShare.addEventListener(MouseEvent.CLICK, bShare_click);
 		
 		addChild(bShare);
+	}
+	
+	private function bShare_click(e:MouseEvent):Void 
+	{
+		VKController.publicateWallResult(this.score);
 	}
 	
 	private function bPlay_click(e:MouseEvent):Void 

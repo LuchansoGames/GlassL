@@ -6,6 +6,8 @@ import com.luchanso.glassl.scenes.LoseMenu;
 import com.luchanso.glassl.scenes.MainMenu;
 import com.luchanso.glassl.ui.MoneyLable;
 import com.luchanso.glassl.ui.SoundButton;
+import com.luchanso.glassl.vk.VKController;
+import com.luchanso.tools.Numerals.Number;
 import flash.events.Event;
 import flash.text.TextField;
 import openfl.Lib;
@@ -16,6 +18,7 @@ import openfl.events.MouseEvent;
 import openfl.text.TextFieldAutoSize;
 import openfl.text.TextFormat;
 import openfl.ui.Keyboard;
+import pgr.dconsole.DC;
 
 /**
  * ...
@@ -40,11 +43,19 @@ class Main extends Sprite
 	{
 		removeEventListener(Event.ADDED_TO_STAGE, addedToStage);
 		
-		//initMainMenu();
+		#if debug
+		
+		DC.init();
+		
+		#end
+		
+		VKController.init();
+		
+		initMainMenu();
 		initLoseMenu();
 		//drawDebug();
 		
-		loseMenu.show();
+		//loseMenu.show();
 		
 		addSoundButtonToStage();
 		
@@ -101,7 +112,10 @@ class Main extends Sprite
 			mainMenu = null;
 		}
 		
-		loseMenu.hide();
+		if (loseMenu != null) 
+		{
+			loseMenu.hide();
+		}
 		
 		if (game != null)
 		{

@@ -17,15 +17,20 @@
 	<haxelib name="openfl" />
 	<haxelib name="actuate" />
 	<haxelib name="ltools" />
+	<haxelib name="hx-vk-api" />
+	<haxelib name="dconsole" />
 	
 	<!-- assets -->
 	<assets path="assets/img" rename="img" />
 	<assets path="assets/sound" rename="sound" />
 	
+	<set name="SWF_VERSION" value="11.3" />
 	<!-- optimize output
 	<haxeflag name="-dce full" /> -->	
 	
 	<!--  <haxedef name="cheat" /> -->
+	
 	<haxedef name="vk_build" />
+	
 	
 </project>

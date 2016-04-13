@@ -12,4 +12,26 @@ class Client
 		
 	}
 	
+	public function getCoinsById() : Int
+	{
+		
+	}
+	
+	public function getScoreTable() : Dynamic
+	{
+		
+	}
+	
+	/**
+	 * Потратить N монеток
+	 */
+	public function useCoins(n : Int)
+	{
+		
+	}
+	
+	public function setNewScore(n : Int) : Void
+	{
+		
+	}
 }
