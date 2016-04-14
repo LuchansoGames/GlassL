@@ -29,7 +29,7 @@
   </classpaths>
   <!-- Build options -->
   <build>
-    <option directives="openfl=3.6.1&#xA;lime=2.9.0&#xA;actuate=1.8.6&#xA;actuate=1.0.0&#xA;ltools=1.0.0&#xA;hx-vk-api=0.0.1&#xA;dconsole=5.0.0&#xA;hscript=2.0.4&#xA;openfl-next&#xA;tools=2.9.0&#xA;no-compilation&#xA;openfl-flash&#xA;vk_build&#xA;web&#xA;display" />
+    <option directives="openfl=3.6.1&#xA;lime=2.9.0&#xA;actuate=1.8.6&#xA;actuate=1.0.1&#xA;ltools=1.0.1&#xA;hx-vk-api=0.0.1&#xA;dconsole=5.0.0&#xA;hscript=2.0.4&#xA;openfl-next&#xA;tools=2.9.0&#xA;no-compilation&#xA;openfl-flash&#xA;vk_build&#xA;web&#xA;display" />
     <option flashStrict="False" />
     <option noInlineOnDebug="False" />
     <option mainClass="ApplicationMain" />
