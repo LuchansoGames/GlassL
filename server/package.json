@@ -1,0 +1,37 @@
+{
+  "name": "glassl-server",
+  "version": "1.0.0",
+  "description": "GlassL Game server",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -t 2000",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/Luchanso/glassl-server.git"
+  },
+  "keywords": [
+    "server",
+    "glassl",
+    "game"
+  ],
+  "author": "Loutchansky Oleg",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/Luchanso/glassl-server/issues"
+  },
+  "homepage": "https://gitlab.com/Luchanso/glassl-server#README",
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "express": "^4.13.4",
+    "grant-express": "^3.6.0",
+    "mongoose": "^4.4.12",
+    "multer": "^1.1.0",
+    "request": "^2.71.0"
+  },
+  "devDependencies": {
+    "mocha": "^2.4.5",
+    "should": "^8.3.0"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "url": "https://oauth.vk.com/access_token",
+  "client_id": "5373055",
+  "client_secret": "zqWRc9ztW26D0oFj03fz",
+  "grant_type": "client_credentials",
+  "v": "5.50" 
+}
