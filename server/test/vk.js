@@ -1,5 +1,7 @@
 'use strict';
 
+return;
+
 let vk = require('../src/vk'),
   score = require('../src/score'),
   schould = require('should');
@@ -10,21 +12,17 @@ describe('VK API score', function() {
       .then(() => {        
         return score.newAttainment('161236502', 1);
       })
-      .then((data) => {
-        console.log(data);        
+      .then((data) => {        
         return score.newAttainment('161236502', 1);
       })
-      .then((data) => {
-        console.log(data);
+      .then((data) => {        
         return score.newAttainment('161236502', 1);        
       })
-      .then((data) => {
-        console.log(data);
+      .then((data) => {        
         done();
       })
-      .catch((err) => {
-        console.log(err);
-        err.should.be.null();
+      .catch((err) => {        
+        should(err).be.ok();
       });
   });
 });
