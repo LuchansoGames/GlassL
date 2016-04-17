@@ -1,6 +1,6 @@
 'use strict';
 
-let mongoose = require('./db'),
+let mongoose = require('../db'),
   paymentsSchema = require('./payments-schema'),
   Schema = mongoose.Schema;
 
@@ -9,3 +9,5 @@ let userSchema = new Schema({
   coins: Number,
   payments: [paymentsSchema]
 });
+
+module.exports = userSchema;

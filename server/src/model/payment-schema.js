@@ -1,6 +1,6 @@
 'use strict';
 
-let mongoose = require('./db'),
+let mongoose = require('../db'),
   userSchema = require('./user-schema'),
   Schema = mongoose.Schema;
 
