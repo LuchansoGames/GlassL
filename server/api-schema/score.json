@@ -1,0 +1,24 @@
+{
+  "Score": [{
+    "function": "newAttetment",
+    "method": "POST",
+    "path": "/glassl/newAttetment",
+    "description": "Создание нового рекорда",
+    "post-object": {
+      "id": "String",
+      "score": "Number"
+    },
+    "reutrn-object": {
+      "status": "String"
+    }
+  }, {
+    "function": "getTop100",
+    "method": "GET",
+    "path": "/glassl/getrating",
+    "description": "Получение таблицы рейтинга",
+    "reutrn-object": {
+      "id": "String",
+      "score": "Number"
+    }
+  }]
+}
