@@ -30,10 +30,6 @@ security.isVkServer = (data, hash) => {
 
   let tempHash = crypto.createHash('md5').update(verefiString).digest('hex');
 
-  console.log('');
-  console.log(tempHash);
-  console.log(data.sig);
-
   return tempHash === data.sig;
 }
 

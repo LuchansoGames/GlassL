@@ -6,6 +6,7 @@ let express = require('express'),
   upload = multer(),
   security = require('./security'),
   Score = require('./model/score'),
+  Payment = require('./model/payment'),
   app = express();
 
 app.use(bodyParser.json());
@@ -13,7 +14,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-const port = 22079;
+let port = process.env.PORT || 80;
 
 app.listen(port, () => {
   console.log(`Server run on: 0.0.0.0:${port}`);
@@ -37,7 +38,9 @@ app.post('/glassl/newattaitment', upload.array(), (req, res) => {
           score: row.score
         }));
       } else {
-        res.json({status: "Unknown ?"});
+        res.json({
+          status: "Unknown ?"
+        });
       }
     })
     .then((result) => {
@@ -45,8 +48,7 @@ app.post('/glassl/newattaitment', upload.array(), (req, res) => {
         status: "ok"
       });
     })
-    .catch((err) => {
-      console.log(err);
+    .catch((err) => {      
       return res.json({
         status: "error :c"
       });
@@ -58,25 +60,40 @@ app.get('/glassl/getrating', (req, res) => {
     .then((result) => {
       res.json(result);
     })
-    .catch((err) => {
-      console.log(err);
+    .catch((err) => {      
       res.json({
         status: "Error :c"
       });
     })
 })
 
-app.psot('/glassl/vkpayment', upload.array(), (req, res) => {
+app.post('/glassl/vkpayment', upload.array(), (req, res) => {
   let row = req.body;
   let result = {};
 
   if (security.isVkServer(row, row.sig)) {
-    result = {
-      response: {
-        order_id: row.order_id,
-        app_order_id: Math.round(Math.random() * 9999)
-      }
-    }
+    Payment.transaction(Number.parseInt(row.item_price), row.user_id)
+      .then((result) => {
+        result = {
+          response: {
+            order_id: row.order_id,
+            app_order_id: row.order_id
+          }
+        }
+
+        res.json(result);
+      })
+      .catch((err) => {
+        result = {
+          error: {
+            error_code: 2,
+            error_msg: "Временная ошибка базы данных",
+            critical: false
+          }
+        };
+
+        res.json(result);
+      });
   } else {
     result = {
       error: {
@@ -85,9 +102,10 @@ app.psot('/glassl/vkpayment', upload.array(), (req, res) => {
         critical: true
       }
     };
-  }
 
-  res.json(result);
+    res.json(result);
+  }
+  
 });
 
 module.exports = app;

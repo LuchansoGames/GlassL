@@ -3,6 +3,8 @@
 let mongoose = require('mongoose'),
   config = require('../config');
 
-mongoose.connect(config.db.path);
+let mongoUrl = process.env.MONGO_URL || config.db.path;
+
+mongoose.connect(mongoUrl);
 
 module.exports = mongoose;

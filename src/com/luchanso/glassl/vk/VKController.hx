@@ -86,14 +86,10 @@ class VKController
 	{
 		if (vk.isVKEnvironment())
 		{
-			var paramsWindow = new Array();
+			var paramsWindow = new Array<Dynamic>();
 			
-			paramsWindow.push("showOrderBox");
-			
-			paramsWindow.push("type");
-			paramsWindow.push("votes");
-			paramsWindow.push("votes");
-			paramsWindow.push("1");
+			paramsWindow.push("showOrderBox");			
+			paramsWindow.push({type: "votes"});
 			
 			vk.callMethod(paramsWindow);
 		}

@@ -7,7 +7,7 @@ let mongoose = require('../db'),
 let paymentSchema = new Schema({
   coins: Number,
   date: { type: Date, default: Date.now },
-  userId: [userSchema]
+  userId: userSchema
 });
 
 module.exports = paymentSchema;
