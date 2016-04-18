@@ -89,7 +89,7 @@ class VKController
 			var paramsWindow = new Array<Dynamic>();
 			
 			paramsWindow.push("showOrderBox");			
-			paramsWindow.push({type: "votes"});
+			paramsWindow.push({type: "votes", votes: 5});
 			
 			vk.callMethod(paramsWindow);
 		}

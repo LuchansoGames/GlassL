@@ -1,0 +1,15 @@
+{
+  "Coins": [{
+    "function": "writeOffCoins",
+    "method": "POST",
+    "path": "/glassl/writeoffcoins",
+    "description": "Списание монеток со счёта пользователя",
+    "post-object": {
+      "id": "String",
+      "coins": "Number"
+    },
+    "reutrn-object": {
+      "status": "String"
+    }
+  }]
+}

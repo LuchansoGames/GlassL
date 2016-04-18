@@ -17,6 +17,18 @@ security.checkScoreData = (data) => {
   return result;
 }
 
+security.checkWriteoffData = (data) => {
+  let result = false;
+
+  if (typeof(data) === 'object') {
+    typeof(data.id) === 'string' && typeof(Number.parseInt(data.coins)) === 'number';
+  } else {
+    result = false;
+  }
+
+  return result;
+}
+
 security.isVkServer = (data, hash) => {
   let verefiString = '';
 

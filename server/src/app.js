@@ -48,7 +48,7 @@ app.post('/glassl/newattaitment', upload.array(), (req, res) => {
         status: "ok"
       });
     })
-    .catch((err) => {      
+    .catch((err) => {
       return res.json({
         status: "error :c"
       });
@@ -60,7 +60,7 @@ app.get('/glassl/getrating', (req, res) => {
     .then((result) => {
       res.json(result);
     })
-    .catch((err) => {      
+    .catch((err) => {
       res.json({
         status: "Error :c"
       });
@@ -105,7 +105,36 @@ app.post('/glassl/vkpayment', upload.array(), (req, res) => {
 
     res.json(result);
   }
-  
+});
+
+app.post('/glassl/writeoffcoins', upload.array(), (req, res) => {
+  let row = req.body;
+
+  let isCorrectData = security.checkWriteoffData(row);
+  if (!isCorrectData) {
+    return res.json({
+      error: 'Bad data'
+    });
+  }
+
+  User.update({
+    id: id
+  }, {
+    $inc: {
+      coins: -Number.parseInt(row.coins)
+    }
+  })
+  .then((result) => {
+    if (result.ok) {
+      return res.json({
+        status: "ok"
+      });
+    } else {
+      return res.json({
+        status: "error :c"
+      });
+    }
+  });
 });
 
 module.exports = app;
