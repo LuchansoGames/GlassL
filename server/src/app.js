@@ -66,4 +66,28 @@ app.get('/glassl/getrating', (req, res) => {
     })
 })
 
+app.psot('/glassl/vkpayment', upload.array(), (req, res) => {
+  let row = req.body;
+  let result = {};
+
+  if (security.isVkServer(row, row.sig)) {
+    result = {
+      response: {
+        order_id: row.order_id,
+        app_order_id: Math.round(Math.random() * 9999)
+      }
+    }
+  } else {
+    result = {
+      error: {
+        error_code: 10,
+        error_msg: "несовпадение вычисленной и переданной подписи",
+        critical: true
+      }
+    };
+  }
+
+  res.json(result);
+});
+
 module.exports = app;
