@@ -23,9 +23,7 @@ security.checkWriteoffData = (data) => {
 
   if (typeof(data) === 'object') {
     result = typeof(data.id) === 'string' &&
-      typeof(Number.parseInt(data.coins)) === 'number' &&
-      typeof(data.key) === 'string' &&
-      typeof(data.sign) === 'string';
+      typeof(Number.parseInt(data.coins)) === 'number';
   } else {
     result = false;
   }
@@ -35,6 +33,11 @@ security.checkWriteoffData = (data) => {
 
 security.isVkServer = (data, hash) => {
   let verefiString = '';
+
+  if (!(typeof(data.key) === 'string' &&
+      typeof(data.sign) === 'string')) {
+    return false;
+  }
 
   for (let paramName in data) {
     if (paramName !== 'sig') {

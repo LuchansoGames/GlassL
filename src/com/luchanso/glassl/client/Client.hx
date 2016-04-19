@@ -25,7 +25,7 @@ class Client
 	{
 		var loader = getLoader(Config.urlAddress + "/glassl/getrating");
 		loader.addEventListener(Event.COMPLETE, function(e:Event)
-		{			
+		{
 			var loader = cast(e.target, URLLoader);
 			var data = loader.data;
 			
@@ -50,9 +50,18 @@ class Client
 		});
 	}
 	
-	public static function setNewScore(n : Int) : Void
+	public static function setNewScore(n : Int id : String, callback : Dynamic) : Void
 	{
+		var data = LWeb.DynamicToPOST(addSignToData( { id: id, score: Std.string(n) } ));
 		
+		var loader = getLoader(Config.urlAddress + "/glassl/newattaitment", true, data);
+		loader.addEventListener(Event.COMPLETE, function(e:Event)
+		{			
+			var loader = cast(e.target, URLLoader);
+			var data = loader.data;
+			
+			callback(data);
+		});
 	}
 	
 	static function addSignToData(data : Dynamic) : Dynamic

@@ -35,6 +35,13 @@ app.post('/glassl/newattaitment', upload.array(), (req, res) => {
     });
   }
 
+  let isCorrectSign = security.isValideSign(hash, row, rand);
+  if (!isCorrectSign) {
+    return res.json({
+      status: "error - NCD :c"
+    });
+  }
+
   Score.isBetterScore(row.score)
     .then((result) => {
       if (result) {
@@ -158,6 +165,24 @@ app.post('/glassl/writeoffcoins', upload.array(), (req, res) => {
         status: "error - NFD :c"
       });
     })
+});
+
+app.psot('/glassl/getcoins', upload.array(), (req, res) => {
+  let row = req.body;
+
+  User.findOne({
+      id: row.id
+    })
+    .then((user) => {
+      return res.json({
+        coins: user.coins
+      });
+    })
+    .catch((err) => {
+      return res.json({
+        status: "error :c"
+      });
+    });
 });
 
 app.all('/crossdomain.xml', (req, res, next) => {

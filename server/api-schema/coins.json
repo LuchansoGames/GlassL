@@ -11,5 +11,16 @@
     "reutrn-object": {
       "status": "String"
     }
+  }, {
+    "function": "getCoins",
+    "method": "POST",
+    "path": "/glassl/getcoins",
+    "description": "Получение монеток пользователя",
+    "post-object": {
+      "id": "String"
+    },
+    "reutrn-object": {
+      "coins": "Number"
+    }
   }]
 }
