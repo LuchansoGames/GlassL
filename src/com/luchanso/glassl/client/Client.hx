@@ -1,37 +1,96 @@
 package com.luchanso.glassl.client;
 
+import com.luchanso.tools.http.LWeb;
+import haxe.Json;
+import haxe.crypto.Md5;
+import haxe.crypto.Base64;
+import haxe.io.Bytes;
+import haxe.io.BytesBuffer;
+import openfl.events.Event;
+import openfl.net.URLLoader;
+import openfl.net.URLRequest;
+import openfl.net.URLVariables;
+
 /**
  * ...
  * @author Loutchansky Oleg
  */
 class Client
 {
-
-	public function new() 
+	public static function getCoinsById()
 	{
-		
 	}
 	
-	public function getCoinsById() : Int
+	public static function getScoreTable(callback : Dynamic)
 	{
-		
-	}
-	
-	public function getScoreTable() : Dynamic
-	{
-		
+		var loader = getLoader(Config.urlAddress + "/glassl/getrating");
+		loader.addEventListener(Event.COMPLETE, function(e:Event)
+		{			
+			var loader = cast(e.target, URLLoader);
+			var data = loader.data;
+			
+			callback(data);
+		});
 	}
 	
 	/**
 	 * Потратить N монеток
 	 */
-	public function useCoins(n : Int)
+	public static function useCoins(n : Int, id : String, callback : Dynamic)
+	{
+		var data = LWeb.DynamicToPOST(addSignToData( { id: id, coins: Std.string(n) } ));
+		
+		var loader = getLoader(Config.urlAddress + "/glassl/writeoffcoins", true, data);
+		loader.addEventListener(Event.COMPLETE, function(e:Event)
+		{			
+			var loader = cast(e.target, URLLoader);
+			var data = loader.data;
+			
+			callback(data);
+		});
+	}
+	
+	public static function setNewScore(n : Int) : Void
 	{
 		
 	}
 	
-	public function setNewScore(n : Int) : Void
+	static function addSignToData(data : Dynamic) : Dynamic
 	{
+		var secret = Config.secret;
+		
+		var bytesBuffer = new BytesBuffer();
+		bytesBuffer.addString(Std.string(Math.random()));
+				
+		var rand = Base64.encode(bytesBuffer.getBytes());
+		
+		var verefyString = Md5.encode(rand + Json.stringify(data) + secret);
+		trace(rand + Json.stringify(data) + secret);
+		
+		data.key = rand;
+		data.sign = verefyString;
+		
+		return data;
+	}
+	
+	static function getLoader(url : String, isPost : Bool = false, data : Dynamic = null) : URLLoader
+	{
+		var request = new URLRequest(url);
+		if (isPost)
+		{
+			request.method = "POST";
+		}
+		else 
+		{
+			request.method = "GET";
+		}
+		if (data)
+		{
+			request.data = data;
+		}
+		var loader = new URLLoader(request);
+		
+		return loader;
 		
 	}
 }
