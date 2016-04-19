@@ -24,6 +24,7 @@
   "homepage": "https://gitlab.com/Luchanso/glassl-server#README",
   "dependencies": {
     "body-parser": "^1.15.0",
+    "crossdomain": "0.0.1",
     "express": "^4.13.4",
     "grant-express": "^3.6.0",
     "mongoose": "^4.4.12",

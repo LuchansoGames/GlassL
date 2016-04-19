@@ -6,7 +6,12 @@ let express = require('express'),
   upload = multer(),
   security = require('./security'),
   Score = require('./model/score'),
+  User = require('./model/user'),
   Payment = require('./model/payment'),
+  crossdomain = require('crossdomain'),
+  xml = crossdomain({
+    domain: '*.vk.com'
+  }),
   app = express();
 
 app.use(bodyParser.json());
@@ -117,24 +122,47 @@ app.post('/glassl/writeoffcoins', upload.array(), (req, res) => {
     });
   }
 
+  let hash = row.sign;
+  let rand = row.key;
+
+  delete row.sign;
+  delete row.key;
+
+  let isCorrectSign = security.isValideSign(hash, row, rand);
+  if (!isCorrectSign) {
+    return res.json({
+      status: "error - NCD :c"
+    });
+  }
+
   User.update({
-    id: id
-  }, {
-    $inc: {
-      coins: -Number.parseInt(row.coins)
-    }
-  })
-  .then((result) => {
-    if (result.ok) {
+      id: row.id
+    }, {
+      $inc: {
+        coins: -Number.parseInt(row.coins)
+      }
+    })
+    .then((result) => {
+      if (result.ok) {
+        return res.json({
+          status: "ok"
+        });
+      } else {
+        return res.json({
+          status: "error :c"
+        });
+      }
+    })
+    .catch((err) => {
       return res.json({
-        status: "ok"
+        status: "error - NFD :c"
       });
-    } else {
-      return res.json({
-        status: "error :c"
-      });
-    }
-  });
+    })
+});
+
+app.all('/crossdomain.xml', (req, res, next) => {
+  res.set('Content-Type', 'application/xml; charset=utf-8');
+  res.send(xml, 200);
 });
 
 module.exports = app;

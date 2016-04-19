@@ -3,10 +3,11 @@
 const crypto = require('crypto');
 
 let security = {},
+  globalConfig = require('../config'),
   config = require('../configOAuth');
 
 security.checkScoreData = (data) => {
-  let result = false;  
+  let result = false;
 
   if (typeof(data) === 'object') {
     result = typeof(data.id) === 'string' && typeof(Number.parseInt(data.score)) === 'number';
@@ -21,7 +22,10 @@ security.checkWriteoffData = (data) => {
   let result = false;
 
   if (typeof(data) === 'object') {
-    typeof(data.id) === 'string' && typeof(Number.parseInt(data.coins)) === 'number';
+    result = typeof(data.id) === 'string' &&
+      typeof(Number.parseInt(data.coins)) === 'number' &&
+      typeof(data.key) === 'string' &&
+      typeof(data.sign) === 'string';
   } else {
     result = false;
   }
@@ -43,6 +47,15 @@ security.isVkServer = (data, hash) => {
   let tempHash = crypto.createHash('md5').update(verefiString).digest('hex');
 
   return tempHash === data.sig;
+}
+
+security.isValideSign = (hash, data, rand) => {
+  let secret = globalConfig.security.secret;
+  let verefiString = rand + JSON.stringify(data) + secret;
+
+  let hashGen = crypto.createHash('md5').update(verefiString).digest('hex');
+
+  return hashGen === hash;
 }
 
 module.exports = security;

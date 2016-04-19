@@ -2,7 +2,7 @@
   "Score": [{
     "function": "newAttetment",
     "method": "POST",
-    "path": "/glassl/newAttetment",
+    "path": "/glassl/newattetment",
     "description": "Создание нового рекорда",
     "post-object": {
       "id": "String",
@@ -14,7 +14,7 @@
   }, {
     "function": "getTop100",
     "method": "GET",
-    "path": "/glassl/getrating",
+    "path": "/glassl/ ",
     "description": "Получение таблицы рейтинга",
     "reutrn-object": {
       "id": "String",

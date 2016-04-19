@@ -1,5 +1,8 @@
 {
   "db": {
     "path": "mongodb://localhost/test"
+  },
+  "security" : {
+    "secret": "$1$cpwdDRMK$P7z564nKedEutjtSISisp1"
   }
 }
