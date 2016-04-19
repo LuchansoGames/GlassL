@@ -1,5 +1,6 @@
 package com.luchanso.glassl.ui;
 
+import com.luchanso.tools.Numerals;
 import flash.text.TextField;
 import openfl.text.TextFieldAutoSize;
 import openfl.text.TextFormat;
@@ -31,7 +32,9 @@ class MoneyLable extends TextField
 	}
 	
 	function set_money(value:Int):Int 
-	{
+	{		
+		this.text = Std.string(value) + Number.numerals(value, " монетка", " монетки", " монеток");
+		
 		return _money = value;
 	}
 	

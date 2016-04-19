@@ -57,8 +57,6 @@ class VKController
             paramsWindow.push("v1.0.0");
 
             vk.callMethod(paramsWindow);
-
-            vk.api("users.get", { fields: "photo_50"}, userGetComplete, userGetError);
         }
 	}
 	

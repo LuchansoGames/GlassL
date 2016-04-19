@@ -36,6 +36,8 @@ class Main extends Sprite
 	{
 		super();
 		
+		VKController.init();
+		
 		addEventListener(Event.ADDED_TO_STAGE, addedToStage);
 	}
 	
@@ -47,9 +49,8 @@ class Main extends Sprite
 		
 		DC.init();
 		
-		#end
+		#end		
 		
-		VKController.init();
 		
 		initMainMenu();
 		initLoseMenu();

@@ -1,4 +1,5 @@
 package com.luchanso.glassl.scenes;
+import com.luchanso.glassl.client.Client;
 import com.luchanso.glassl.effects.Circle;
 import com.luchanso.glassl.effects.CircleTween;
 import com.luchanso.glassl.ui.MoneyLable;
@@ -16,6 +17,8 @@ import openfl.events.MouseEvent;
 import openfl.text.AntiAliasType;
 import openfl.text.TextFieldAutoSize;
 import openfl.text.TextFormat;
+import pgr.dconsole.DC;
+import vk.Vk;
 
 /**
  * ...
@@ -62,6 +65,20 @@ class MainMenu extends Scene
 		moneyLable.y = (bPay.y + bPay.height);
 		
 		addChild(moneyLable);
+		
+		if (VKController.vk.isVKEnvironment()) 
+		{
+			VKController.vk.api("users.get", { fields: "photo_50"}, function (user)
+			{	
+				Client.getCoinsById(user[0].uid, function(coins) {
+					moneyLable.money = Std.parseInt(coins);
+				});
+			}, function(_)
+			{
+				DC.log(_);
+			});
+		}
+		
 	}
 	
 	private function init(e:Event):Void 
