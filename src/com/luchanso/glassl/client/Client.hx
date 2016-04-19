@@ -17,8 +17,18 @@ import openfl.net.URLVariables;
  */
 class Client
 {
-	public static function getCoinsById()
+	public static function getCoinsById(id : String, callback : Dynamic)
 	{
+		var data = LWeb.DynamicToPOST( { id : id } );
+		
+		var loader = getLoader(Config.urlAddress + "/glassl/getcoins", true, data);
+		loader.addEventListener(Event.COMPLETE, function(e:Event)
+		{			
+			var loader = cast(e.target, URLLoader);
+			var data = loader.data;
+			
+			callback(data);
+		});
 	}
 	
 	public static function getScoreTable(callback : Dynamic)

@@ -167,7 +167,7 @@ app.post('/glassl/writeoffcoins', upload.array(), (req, res) => {
     })
 });
 
-app.psot('/glassl/getcoins', upload.array(), (req, res) => {
+app.post('/glassl/getcoins', upload.array(), (req, res) => {
   let row = req.body;
 
   User.findOne({
