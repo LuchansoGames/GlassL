@@ -28,7 +28,9 @@ class Client
 			var loader = cast(e.target, URLLoader);
 			var data = loader.data;
 			
-			callback(Json.parse(data).coins);
+			Config.coins = Json.parse(data).coins;
+			
+			callback(Config.coins);
 		});
 	}
 	

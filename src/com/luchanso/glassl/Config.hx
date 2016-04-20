@@ -14,4 +14,5 @@ class Config
 	
 	public static var secret : String = "$1$cpwdDRMK$P7z564nKedEutjtSISisp1";
 	public static var urlAddress : String = "http://37.139.30.134";
+	public static var coins : Int = 0;
 }
