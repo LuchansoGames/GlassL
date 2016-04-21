@@ -64,21 +64,31 @@ class MainMenu extends Scene
 		moneyLable.x = (bPay.x + bPay.width / 2) - moneyLable.width / 2;
 		moneyLable.y = (bPay.y + bPay.height);
 		
+		Config.events.addEventListener(Config.COINS_CHANGE, function (_)
+		{
+			moneyLable.money = Config.coins;
+			moneyLable.x = (bPay.x + bPay.width / 2) - moneyLable.width / 2;
+		});
+		
 		addChild(moneyLable);
 		
 		if (VKController.vk.isVKEnvironment()) 
 		{
-			VKController.vk.api("users.get", { fields: "photo_50"}, function (user)
-			{	
-				Client.getCoinsById(user[0].uid, function(coins) {
-					moneyLable.money = Std.parseInt(coins);
-				});
-			}, function(_)
+			if (VKController.user == null) 
 			{
-				DC.log(_);
-			});
-		}
-		
+				VKController.vk.api("users.get", { fields: "photo_50"}, function (user)
+				{	
+					Client.getCoinsById(user[0].uid);
+				}, function(_)
+				{
+					DC.log(_);
+				});
+			} 
+			else 
+			{
+				Client.getCoinsById(VKController.user.uid);
+			}
+		}		
 	}
 	
 	private function init(e:Event):Void 
