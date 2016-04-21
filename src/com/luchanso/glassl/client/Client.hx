@@ -18,7 +18,7 @@ import pgr.dconsole.DC;
  */
 class Client
 {
-	public static function getCoinsById(id : String, callback : Dynamic)
+	public static function getCoinsById(id : String, callback : Dynamic = null)
 	{
 		var data = LWeb.DynamicToPOST( { id : id } );
 		
@@ -30,7 +30,8 @@ class Client
 			
 			Config.coins = Json.parse(data).coins;
 			
-			callback(Config.coins);
+			if (callback != null)
+				callback(Config.coins);
 		});
 	}
 	
