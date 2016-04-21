@@ -1,5 +1,6 @@
 package com.luchanso.glassl.vk;
 
+import com.luchanso.glassl.client.Client;
 import com.luchanso.tools.Numerals.Number;
 import haxe.Json;
 import openfl.display.BitmapData;
@@ -9,6 +10,7 @@ import openfl.display.Bitmap;
 import openfl.display.PNGEncoderOptions;
 import openfl.display.PixelSnapping;
 import openfl.display.Sprite;
+import openfl.events.Event;
 import openfl.filters.DropShadowFilter;
 import openfl.geom.Rectangle;
 import openfl.text.TextField;
@@ -16,6 +18,7 @@ import openfl.text.TextFieldAutoSize;
 import openfl.text.TextFormat;
 import pgr.dconsole.DC;
 import vk.Vk;
+import vk.events.CustomEvent;
 
 /**
  * ...
@@ -44,11 +47,13 @@ class VKController
 		scoreField.autoSize = TextFieldAutoSize.LEFT;
 	}
 	
-	static private function initVK() 
+	static private function initVK()
 	{
 		var flashVars = Lib.current.stage.loaderInfo.parameters;
 		vk = new Vk(flashVars);
 		vk.setTestModeOn();
+		
+		vk.addEventListener("onWindowFocus", onOrderSuccess);
 		
 		if (vk.isVKEnvironment())
         {
@@ -57,7 +62,10 @@ class VKController
             paramsWindow.push("v1.0.0");
 
             vk.callMethod(paramsWindow);
+			
+			vk.api('users.get', { }, userGetComplete, userGetError);
         }
+		
 	}
 	
 	static private function userGetError(params : Dynamic) : Void
@@ -77,7 +85,7 @@ class VKController
 		
 		#end
 		
-		user = params;
+		user = params[0];
 	}
 	
 	public static function paymentActivate(_ = null) : Void
@@ -87,9 +95,21 @@ class VKController
 			var paramsWindow = new Array<Dynamic>();
 			
 			paramsWindow.push("showOrderBox");			
-			paramsWindow.push({type: "votes", votes: 5});
+			paramsWindow.push( { type: "votes", votes: 1 } );			
 			
-			vk.callMethod(paramsWindow);
+			vk.callMethod(paramsWindow);			
+		}
+	}
+	
+	static private function onOrderSuccess(_)
+	{
+		DC.log(_);
+		DC.log('Order success');
+		if (user != null) {
+			Client.getCoinsById(user.uid, function (coins)
+			{
+				DC.log("coins: " + coins);
+			});
 		}
 	}
 	
