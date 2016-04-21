@@ -1,6 +1,7 @@
 package com.luchanso.glassl.ui.dialogs;
 
 import com.luchanso.glassl.ui.TextButton;
+import com.luchanso.tools.Numerals.Number;
 import openfl.display.Sprite;
 import openfl.events.MouseEvent;
 import openfl.text.TextField;
@@ -17,6 +18,7 @@ class ReliveDialog extends Dialog
 	var headerPurchase : TextField;
 	var descriptionRelive : TextField;
 	var descriptionPurchases : TextField;
+	var moneyLable : TextField;
 	
 	var reliveButton : TextButton;
 	var purchasesButton : TextButton;
@@ -41,6 +43,29 @@ class ReliveDialog extends Dialog
 		addDescriptionPurchases();
 		addPurchasesButton();
 		addCloseButton();
+		
+		addMoneyLable();
+	}
+	
+	function addMoneyLable() 
+	{
+		moneyLable = new TextField();
+		moneyLable.defaultTextFormat = new TextFormat("Arial", 25, 0x333333);		
+		moneyLable.selectable = false;
+		moneyLable.mouseEnabled = false;
+		moneyLable.autoSize = TextFieldAutoSize.LEFT;
+		moneyLable.text = "У Вас " + Config.coins + Number.numerals(Config.coins, " монетка", " монетки", " монеток");
+		moneyLable.x = this.marginLeft + this.dWidth / 2 - moneyLable.width / 2;
+		moneyLable.y = (purchasesButton.y + purchasesButton.height + closeButton.y) / 2 - moneyLable.height / 2;
+		
+		
+		Config.events.addEventListener(Config.COINS_CHANGE, function(_)
+		{
+			moneyLable.text = "У Вас " + Config.coins + Number.numerals(Config.coins, " монетка", " монетки", " монеток");
+			moneyLable.x = this.marginLeft + this.dWidth / 2 - moneyLable.width / 2;
+		});
+		
+		addChild(moneyLable);
 	}
 	
 	function addCloseButton() 
