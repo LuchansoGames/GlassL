@@ -8,7 +8,7 @@
     <movie fps="60" />
     <movie width="600" />
     <movie height="700" />
-    <movie version="1" />
+    <movie version="0" />
     <movie minorVersion="0" />
     <movie platform="Lime" />
     <movie background="80D8FF" />
@@ -55,8 +55,8 @@
   <!-- Other project options -->
   <options>
     <option showHiddenPaths="False" />
-    <option testMovie="Custom" />
-    <option testMovieCommand="" />
+    <option testMovie="OpenDocument" />
+    <option testMovieCommand="https://vk.com/editapp?id=5373055&amp;section=options" />
   </options>
   <!-- Plugin storage -->
   <storage />
