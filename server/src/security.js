@@ -34,10 +34,10 @@ security.checkWriteoffData = (data) => {
 security.isVkServer = (data, hash) => {
   let verefiString = '';
 
-  if (!(typeof(data.key) === 'string' &&
-      typeof(data.sign) === 'string')) {
-    return false;
-  }
+  // if (!(typeof(data.key) === 'string' &&
+  //     typeof(data.sign) === 'string')) {
+  //   return false;
+  // }
 
   for (let paramName in data) {
     if (paramName !== 'sig') {

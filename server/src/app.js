@@ -110,7 +110,7 @@ app.post('/glassl/vkpayment', upload.array(), (req, res) => {
     result = {
       error: {
         error_code: 10,
-        error_msg: "несовпадение вычисленной и переданной подписи",
+        error_msg: "Несовпадение вычисленной и переданной подписи",
         critical: true
       }
     };
@@ -187,7 +187,7 @@ app.post('/glassl/getcoins', upload.array(), (req, res) => {
 
 app.all('/crossdomain.xml', (req, res, next) => {
   res.set('Content-Type', 'application/xml; charset=utf-8');
-  res.send(xml, 200);
+  res.status(200).send(xml);
 });
 
 module.exports = app;
