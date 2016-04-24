@@ -10,7 +10,7 @@ import openfl.display.Sprite;
  * ...
  * @author Loutchansky Oleg
  */
-class ADS extends Sprite
+class ADScap extends Sprite
 {
 	var adblockMsg : Bitmap;
 	
