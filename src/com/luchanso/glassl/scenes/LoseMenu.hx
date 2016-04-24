@@ -1,11 +1,16 @@
 package com.luchanso.glassl.scenes;
 
-import com.luchanso.glassl.ui.ADS;
+import com.luchanso.glassl.ui.ADScap;
 import com.luchanso.glassl.ui.dialogs.DialogReliveEvent;
 import com.luchanso.glassl.ui.dialogs.ReliveDialog;
 import com.luchanso.glassl.ui.table.Rating;
 import com.luchanso.glassl.vk.VKController;
-import flash.text.TextField;
+import openfl.display.Loader;
+import openfl.net.URLRequest;
+import openfl.system.ApplicationDomain;
+import openfl.system.LoaderContext;
+import openfl.system.SecurityDomain;
+import openfl.text.TextField;
 import motion.Actuate;
 import openfl.Assets;
 import openfl.Lib;
@@ -18,6 +23,8 @@ import openfl.events.MouseEvent;
 import openfl.text.TextFieldAutoSize;
 import openfl.text.TextFormat;
 import openfl.ui.Keyboard;
+import vk.Ads;
+import vk.Vk;
 
 /**
  * ...
@@ -31,7 +38,8 @@ class LoseMenu extends Scene
 	var scoreLable : TextField;
 	var reliveDialog : ReliveDialog;
 	
-	var ads : ADS;
+	var adscap : ADScap;
+	var ads : Dynamic;
 	
 	static var firstColor = 0xFFFFFF;
 	static var secondColor = Config.colorLight;
@@ -64,8 +72,8 @@ class LoseMenu extends Scene
 		
 		addAnimationForButtons();
 		
-		addTableRating();	
-		addADS();
+		addTableRating();
+		
 		addReliveDialog();
 	}
 	
@@ -99,6 +107,8 @@ class LoseMenu extends Scene
 	private function addedToStage(e:Event):Void 
 	{
 		removeEventListener(Event.ADDED_TO_STAGE, addedToStage);
+		
+		addADS();
 		
 		this.stage.addEventListener(KeyboardEvent.KEY_DOWN, function(_)
 		{
@@ -228,11 +238,18 @@ class LoseMenu extends Scene
 	
 	function addADS()
 	{
-		ads = new ADS();
+		adscap = new ADScap();		
+		adscap.x = 0;
+		adscap.y = Lib.current.stage.window.height - 185;
+		addChildAt(adscap, getChildIndex(tableRating));
 		
-		ads.x = 0;
-		ads.y = Lib.current.stage.window.height - 185;
-		
-		addChild(ads);
+		Vk.initADS(finishAddADS);
+	}
+	
+	function finishAddADS(_)
+	{		
+		ads = Ads.create(Config.adsId, adscap.x, adscap.y, adscap.width, adscap.height, Lib.current.stage.loaderInfo.parameters, 4, true);
+
+		addChildAt(ads, getChildIndex(adscap) + 1);
 	}
 }
