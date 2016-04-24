@@ -34,7 +34,7 @@
     <option noInlineOnDebug="False" />
     <option mainClass="ApplicationMain" />
     <option enabledebug="True" />
-    <option additional="-swf-version 11.3&#xA;-debug " />
+    <option additional="-swf-lib-extern lib/vk_ads.swf&#xA;--macro patchTypes('Patch.patch')&#xA;-swf-version 11.3&#xA;-debug " />
   </build>
   <!-- haxelib libraries -->
   <haxelib>

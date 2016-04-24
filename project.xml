@@ -25,12 +25,15 @@
 	<assets path="assets/sound" rename="sound" />
 	
 	<set name="SWF_VERSION" value="11.3" />
+	<haxeflag name="-swf-lib-extern" value="lib/vk_ads.swf" />
+	<haxeflag name="--macro" value="patchTypes('Patch.patch')" />
+	
 	<!-- optimize output
 	<haxeflag name="-dce full" /> -->	
 	
 	<!--  <haxedef name="cheat" /> -->
 	
-	<haxedef name="vk_build" />
+	<haxedef name="vk_build" />	
 	
 	
 </project>
